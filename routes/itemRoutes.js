@@ -1,4 +1,4 @@
-import express, { request } from "express";
+import express from "express";
 import itemController from "../controllers/itemControllers.js"
 import requestMiddleware from "../middleware/requestMiddleware.js"
 

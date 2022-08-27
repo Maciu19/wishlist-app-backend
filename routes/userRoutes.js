@@ -8,7 +8,7 @@ import { check } from "express-validator";
 const router = express.Router();
 
 router.route("/")
-    .get(requestMiddleware, authMiddleware, userController.getUsers)
+    .get(requestMiddleware, userController.getUsers)
     .post([
         check("username", "Invalid username, it must have at least 6 characters").isLength({ min: 6 }),
         check("password", "Invalid password, it must have at least 8 characters").isLength({ min: 8 }),

@@ -18,8 +18,13 @@ const jwtMiddleware = async (req, res, next) => {
             if (err) {
                 res.status(403).send("Invalid Token");
             } else {
-                req.auth = decoded;
-                next();
+                // req.auth = decoded;
+                // next();
+                if (req.params.username === decoded.user) {
+                    next();
+                } else {
+                    res.status(401).send("Unauthorized");
+                }
             }
         } catch (e) {
             res.status(422).send("Invalid Token");

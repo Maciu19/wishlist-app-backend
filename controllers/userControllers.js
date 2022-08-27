@@ -110,7 +110,7 @@ const loginUser = async (req, res, next) => {
         }
 
         if (await bcrypt.compare(req.body.password, user.password)) {
-            const token = authUtil.generateAuthToken(user);
+            const token = authUtil.generateAuthToken(user.username);
             res.send({
                 token
             })

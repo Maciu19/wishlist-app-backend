@@ -16,6 +16,7 @@ const getUser = async (req, res, next) => {
         if (!req?.params?.username) {
             throw { message: "No paramter provided" };
         }
+
         const response = await userServices.getUserUsername(req.params.username);
         if (!response) {
             throw { message: "No user found" };
@@ -29,18 +30,12 @@ const getUser = async (req, res, next) => {
 
 const addUser = async (req, res, next) => {
     try {
-        if (!req?.body?.username && !req?.body?.password && !req?.body?.email) {
-            throw { message: "No parameter provided" };
-        }
-
         const hashPassword = await bcrypt.hash(req.body.password, 10);
-
         const response = await userServices.addUser({
             username: req.body.username,
             password: hashPassword,
             email: req.body.email
         });
-
         res.json(response);
     } catch (err) {
         console.error("Error while adding an user");
@@ -67,7 +62,7 @@ const updateUser = async (req, res, next) => {
 
         res.json(response);
     } catch (err) {
-        console.error("Error while updating an user");
+        console.error("Error while updating POST an user");
         next(err);
     }
 };
@@ -88,7 +83,7 @@ const updateUser2 = async (req, res, next) => {
 
         res.json(response);
     } catch (err) {
-        console.error("Error while updating 2 an user");
+        console.error("Error while updating PUT an user");
         next(err);
     }
 };
@@ -109,10 +104,6 @@ const deleteUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        if (!req?.body?.username && !req?.body?.password) {
-            throw { message: "No paramter provided" };
-        }
-
         const user = await userServices.getUserUsername(req.body.username);
         if (!user) {
             throw { message: "Cannot find user" };

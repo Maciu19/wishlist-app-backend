@@ -4,6 +4,7 @@ import bodyParser from "body-parser"
 import errorMiddleware from "./middleware/errorMiddleware.js"
 import itemRouter from "./routes/itemRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import addressRouter from "./routes/userAddressRoutes.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/items", itemRouter);
 app.use("/users", userRouter);
+app.use("/address", addressRouter);
 
 app.use(errorMiddleware);
 

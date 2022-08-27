@@ -37,13 +37,13 @@ model userDetails {
 }
 
 model userAddress {
-  id          String       @id @default(uuid())
-  city        String
-  street      String
-  zipCode     String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userDetails userDetails?
+  id              String       @id @default(uuid())
+  city            String
+  country         String
+  detaliedAddress String
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  userDetails     userDetails?
 }
 
 model wishlist {

@@ -60,7 +60,7 @@ const updateAddress = async (req, res, next) => {
 
         res.json(response);
     } catch (err) {
-        console.error("Error while creating an address");
+        console.error("Error while updating an address");
         next(err);
     }
 }
@@ -75,7 +75,7 @@ const deleteAddress = async (req, res, next) => {
 
         res.json({ message: response });
     } catch (err) {
-        console.error("Error while creating an address");
+        console.error("Error while deleting an address");
         next(err);
     }
 }

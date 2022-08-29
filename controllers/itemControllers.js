@@ -27,10 +27,6 @@ const getItem = async (req, res, next) => {
 
 const addItem = async (req, res, next) => {
     try {
-        if (!req?.body?.name && !req?.body?.details) {
-            throw { message: "No name provided" };
-        }
-
         const response = await itemServices.addItem({
             name: req.body.name,
             details: req.body.details,

@@ -18,10 +18,13 @@ app.get("/", (req, res) => {
     res.json({ message: "test ok" })
 });
 
-app.use("/items", itemRouter);
 app.use("/users", userRouter);
 app.use("/address", addressRouter);
 app.use("/userDetails", userDetailsRouter);
+
+app.use("/items", itemRouter);
+
+
 
 app.use(errorMiddleware);
 

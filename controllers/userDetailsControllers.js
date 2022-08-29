@@ -36,11 +36,14 @@ const addUserDetails = async (req, res, next) => {
             throw { message: "No address found" }
         }
 
+        const dateSplit = req.body.dob.split("/");
+        const newDate = `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
+
         const response = await userDetailsServices.addUserDetails({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phone: req.body.phone,
-            dob: new Date(req.body.dob).toISOString(),
+            dob: new Date(newDate).toISOString(),
             user: {
                 connect: {
                     id: user.id
@@ -76,8 +79,10 @@ const updateUserDetails = async (req, res, next) => {
             phone: req?.body?.phone || userDetailsIntial.phone,
         };
 
-        const newDate = req?.body?.dob && new Date(req.body.dob).toISOString();
-        if (newDate) {
+        if (req?.body?.dob) {
+            const dateSplit = req.body.dob.split("/");
+            const dateLongFormat = `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
+            const newDate = new Date(dateLongFormat).toISOString()
             responseObj.dob = newDate;
         }
 

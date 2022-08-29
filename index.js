@@ -6,6 +6,7 @@ import itemRouter from "./routes/itemRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import addressRouter from "./routes/userAddressRoutes.js";
 import userDetailsRouter from "./routes/userDetailsRoutes.js";
+import wishlistRouter from "./routes/wishlistRoutes.js";
 
 dotenv.config();
 
@@ -23,8 +24,7 @@ app.use("/address", addressRouter);
 app.use("/userDetails", userDetailsRouter);
 
 app.use("/items", itemRouter);
-
-
+app.use("/wishlists", wishlistRouter);
 
 app.use(errorMiddleware);
 

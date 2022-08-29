@@ -18,7 +18,7 @@ const getWishlist = async (req, res, next) => {
         const response = await wishlistServices.getWishlist(req.params.id);
 
         if (!response) {
-            throw { message: "No paramter provided" };
+            throw { message: "No wishlist found" };
         }
 
         res.json(response);
@@ -32,7 +32,7 @@ const addWishlsit = async (req, res, next) => {
     try {
         const user = await userServices.getUserUsername(req.body.username);
         if (!user) {
-            throw { message: "No paramter provided" };
+            throw { message: "No user found" };
         }
 
         const response = await wishlistServices.addWishlist({

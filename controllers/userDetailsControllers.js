@@ -26,7 +26,7 @@ const getUserDetails = async (req, res, next) => {
 
 const addUserDetails = async (req, res, next) => {
     try {
-        const user = await userServices.getUserUsername(req.body.username);
+        const user = await userServices.getUserEmail(req.body.email);
         if (!user) {
             throw { message: "No user found" }
         }
@@ -36,6 +36,7 @@ const addUserDetails = async (req, res, next) => {
             throw { message: "No address found" }
         }
 
+        // Date Format: MM/DD/YYYY
         const dateSplit = req.body.dob.split("/");
         const newDate = `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
 
@@ -86,8 +87,8 @@ const updateUserDetails = async (req, res, next) => {
             responseObj.dob = newDate;
         }
 
-        if (req?.body?.username) {
-            const user = await userServices.getUserUsername(req.body.username);
+        if (req?.body?.email) {
+            const user = await userServices.getUserEmail(req.body.email);
             if (!user) {
                 throw { message: "No user found" }
             }

@@ -13,7 +13,7 @@ router.route("/")
         check("lastName", "lastName invalid").isLength({ min: 4 }),
         check("phone", "phone invalid").isLength({ min: 9 }),
         check("dob", "Date Of Birth invalid").exists(),
-        check("username", "userId invalid").exists(),
+        check("email", "Invalid email").isEmail(),
         check("addressId", "userAddressId invalid").exists()
     ], validationMiddleware, requestMiddleware, userDetailsControllers.addUserDetails)
 

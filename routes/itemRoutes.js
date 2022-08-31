@@ -10,7 +10,8 @@ router.route("/")
     .get(requestMiddleware, itemController.getItems)
     .post([
         check("name", "Invalid name").exists(),
-        check("details", "Invalid details").exists()
+        check("details", "Invalid details").exists(),
+        check("link", "link details").exists()
     ], validationMiddleware, requestMiddleware, itemController.addItem)
 
 router.route("/:id")

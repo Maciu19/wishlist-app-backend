@@ -30,6 +30,7 @@ const addItem = async (req, res, next) => {
         const response = await itemServices.addItem({
             name: req.body.name,
             details: req.body.details,
+            link: req.body.link,
             size: req?.body?.size || "",
         });
 
@@ -56,6 +57,7 @@ const updateItem = async (req, res, next) => {
         const response = await itemServices.updateItem(id, {
             name: req?.body?.name || item.name,
             details: req?.body?.details || item.details,
+            link: req?.body?.link || item.link,
             size: req?.body?.size || item.size,
         });
 
@@ -82,6 +84,7 @@ const updateItem2 = async (req, res, next) => {
         const response = await itemServices.updateItem(id, {
             name: req?.body?.name,
             details: req?.body?.details,
+            link: req?.body?.link,
             size: req?.body?.size,
         });
 

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import getMinutesDiff from "../utils/minutesDiffUtils.js";
 import userServices from "../services/userServices.js";
 
 const jwtMiddleware = async (req, res, next) => {
@@ -17,6 +18,15 @@ const jwtMiddleware = async (req, res, next) => {
             if (err) {
                 res.status(403).send("Invalid Token");
             } else {
+                const iat = new Date(decoded.iat * 1000);
+                const now = new Date();
+                const minutes = getMinutesDiff(iat, now);
+
+                if (minutes > 59) {
+                    await userServices.updateUser(user.email, { token: null })
+                }
+
+                console.log(minutes, user);
                 next();
             }
         } catch (e) {

@@ -6,10 +6,10 @@ const getAll = async () => {
     return users;
 }
 
-const getUserUsername = async (username) => {
+const getUserEmail = async (email) => {
     const user = await prisma.user.findUnique({
         where: {
-            username
+            email
         }
     })
     return user;
@@ -31,23 +31,23 @@ const addUser = async (userInfo) => {
     return user;
 }
 
-const updateUser = async (username, userInfo) => {
+const updateUser = async (email, userInfo) => {
     const user = await prisma.user.update({
         where: {
-            username
+            email
         },
         data: { ...userInfo }
     })
     return user;
 }
 
-const deleteUser = async (username) => {
+const deleteUser = async (email) => {
     const user = await prisma.user.delete({
         where: {
-            username
+            email
         }
     })
     return user;
 }
 
-export default { getAll, getUserUsername, getUserId, addUser, updateUser, deleteUser };
+export default { getAll, getUserEmail, getUserId, addUser, updateUser, deleteUser };

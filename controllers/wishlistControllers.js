@@ -30,6 +30,7 @@ const getWishlist = async (req, res, next) => {
 
 const addWishlsit = async (req, res, next) => {
     try {
+        // username -> ownerUsername
         const user = await userServices.getUserUsername(req.body.username);
         if (!user) {
             throw { message: "No user found" };

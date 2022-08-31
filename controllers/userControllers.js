@@ -1,6 +1,4 @@
 import userServices from "../services/userServices.js"
-import userAddressController from "../controllers/userAddressController.js"
-import userDetailsServices from "../services/userDetailsServices.js"
 import authUtil from "../utils/authUtils.js";
 import bcrypt from "bcrypt";
 
@@ -15,11 +13,11 @@ const getUsers = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
     try {
-        if (!req?.params?.username) {
+        if (!req?.params?.email) {
             throw { message: "No paramter provided" };
         }
 
-        const response = await userServices.getUserUsername(req.params.username);
+        const response = await userServices.getUserEmail(req.params.email);
         if (!response) {
             throw { message: "No user found" };
         }
@@ -47,16 +45,16 @@ const addUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
     try {
-        if (!req?.params?.username) {
+        if (!req?.params?.email) {
             throw { message: "No parameter provided" };
         }
 
-        const username = req.params.username;
-        const user = await userServices.getUserUsername(username);
+        const email = req.params.email;
+        const user = await userServices.getUserEmail(email);
 
         const hashPassword = req?.body?.password && await bcrypt.hash(req.body.password, 10);
 
-        const response = await userServices.updateUser(username, {
+        const response = await userServices.updateUser(email, {
             username: req?.body?.username || user.username,
             password: hashPassword || user.password,
             email: req?.body?.email || user.email
@@ -71,13 +69,13 @@ const updateUser = async (req, res, next) => {
 
 const updateUser2 = async (req, res, next) => {
     try {
-        if (!req?.params?.username) {
+        if (!req?.params?.email) {
             throw { message: "No parameter provided" };
         }
 
         const hashPassword = req?.body?.password && await bcrypt.hash(req.body.password, 10);
 
-        const response = await userServices.updateUser(req.params.username, {
+        const response = await userServices.updateUser(req.params.email, {
             username: req?.body?.username,
             password: hashPassword,
             email: req?.body?.email
@@ -92,11 +90,11 @@ const updateUser2 = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
     try {
-        if (!req?.params?.username) {
+        if (!req?.params?.email) {
             throw { message: "No paramter provided" };
         }
 
-        const reponse = await userServices.deleteUser(req.params.username);
+        const reponse = await userServices.deleteUser(req.params.email);
         res.json({ message: reponse });
     } catch (err) {
         console.error("Error while deleting an user");
@@ -106,16 +104,16 @@ const deleteUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        const user = await userServices.getUserUsername(req.body.username);
+        const user = await userServices.getUserEmail(req.body.email);
         if (!user) {
             throw { message: "Cannot find user" };
         }
-
         if (await bcrypt.compare(req.body.password, user.password)) {
-            const token = authUtil.generateAuthToken(user.username);
-            res.send({
-                token
+            const token = authUtil.generateAuthToken(user.email, user.password);
+            const response = await userServices.updateUser(user.email, {
+                token: token
             })
+            res.json(response);
         } else {
             throw { message: "Not allowed" };
         }

@@ -17,11 +17,11 @@ router.route("/")
 
 router.route("/login")
     .get([
-        check("username", "Invalid username, it must have at least 6 characters").isLength({ min: 6 }),
+        check("email", "Invalid email").isEmail(),
         check("password", "Invalid password, it must have at least 8 characters").isLength({ min: 8 })
     ], validationMiddleware, requestMiddleware, userController.loginUser)
 
-router.route("/:username")
+router.route("/:email")
     .get(requestMiddleware, authMiddleware, userController.getUser)
     .patch(requestMiddleware, authMiddleware, userController.updateUser)
     .put(requestMiddleware, authMiddleware, userController.updateUser2)

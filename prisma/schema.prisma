@@ -15,6 +15,7 @@ model user {
   username    String        @unique
   password    String
   email       String        @unique
+  token       String?       @unique @db.VarChar(400)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   userDetails userDetails?

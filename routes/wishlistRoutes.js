@@ -9,10 +9,11 @@ const router = express.Router();
 router.route("/")
     .get(requestMiddleware, wishlistControllers.getWishlists)
     .post([
-        check("username", "Invalid username").exists()
+        check("name", "invalid name").exists(),
+        check("email", "Invalid email").isEmail()
     ], validationMiddleware, requestMiddleware, wishlistControllers.addWishlsit)
 
-router.route("/:id")
+router.route("/:name")
     .get(requestMiddleware, wishlistControllers.getWishlist)
     .patch(requestMiddleware, wishlistControllers.updateWishlist)
     .delete(requestMiddleware, wishlistControllers.deleteWishlist)

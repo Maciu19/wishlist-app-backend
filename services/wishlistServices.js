@@ -6,10 +6,19 @@ const getAll = async () => {
     return whislists;
 }
 
-const getWishlist = async (id) => {
+const getWishlistById = async (id) => {
     const wishlist = await prisma.wishlist.findUnique({
         where: {
             id
+        }
+    })
+    return wishlist;
+}
+
+const getWishlistByName = async (name) => {
+    const wishlist = await prisma.wishlist.findUnique({
+        where: {
+            name
         }
     })
     return wishlist;
@@ -22,10 +31,10 @@ const addWishlist = async (wishlistInfo) => {
     return wishlist;
 }
 
-const updateWishlist = async (id, wishlistInfo) => {
+const updateWishlist = async (name, wishlistInfo) => {
     const wishlist = await prisma.wishlist.update({
         where: {
-            id
+            name
         },
         data: { ...wishlistInfo }
     })
@@ -33,13 +42,13 @@ const updateWishlist = async (id, wishlistInfo) => {
 }
 
 
-const deleteWishlist = async (id) => {
+const deleteWishlist = async (name) => {
     const wishlist = await prisma.wishlist.delete({
         where: {
-            id
+            name
         }
     })
     return wishlist;
 }
 
-export default { getAll, getWishlist, addWishlist, updateWishlist, deleteWishlist };
+export default { getAll, getWishlistById, getWishlistByName, addWishlist, updateWishlist, deleteWishlist };

@@ -9,6 +9,7 @@ import userDetailsRouter from "./routes/userDetailsRoutes.js";
 import wishlistRouter from "./routes/wishlistRoutes.js";
 import itemWishlistRouter from "./routes/itemWishlistRoutes.js";
 import groupRouter from "./routes/groupRoutes.js";
+import userGroupRouter from "./routes/userGroupsRoutes.js";
 
 dotenv.config();
 
@@ -23,13 +24,15 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRouter);
 app.use("/address", addressRouter);
-app.use("/userDetails", userDetailsRouter);
+app.use("/usersDetails", userDetailsRouter);
 
 app.use("/items", itemRouter);
 app.use("/wishlists", wishlistRouter);
 app.use("/itemsWishlists", itemWishlistRouter);
 
 app.use("/groups", groupRouter);
+app.use("/usersGroups", userGroupRouter);
+
 
 app.use(errorMiddleware);
 

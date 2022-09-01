@@ -73,9 +73,10 @@ const updateItemsInWishlist = async (req, res, next) => {
             throw { message: "ItemWishlist not found" };
         }
 
-        const objectResponse = {
-            isBought: req?.body?.isBought || itemsInWishlist.isBought
-        };
+        const objectResponse = {};
+        if (req?.body?.isBought === true || req?.body?.isBought === false) {
+            objectResponse.isBought = req.body.isBought;
+        }
 
         if (req?.body?.wishlistName) {
             const newWishlist = await wishlistServices.getWishlistByName(req.body.wishlistName);

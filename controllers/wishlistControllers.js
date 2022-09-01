@@ -65,9 +65,12 @@ const updateWishlist = async (req, res, next) => {
         }
 
         const objectResponse = {
-            isBought: req?.body?.isBought || wishlist.isBought,
             name: req?.body?.name || wishlist.name
         };
+
+        if (req?.body?.isBought === true || req?.body?.isBought === false) {
+            objectResponse.isBought = req.body.isBought;
+        }
 
         if (req?.body?.email) {
             const user = await userServices.getUserEmail(req.body.email);

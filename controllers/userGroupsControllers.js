@@ -1,0 +1,135 @@
+import userGroupsServices from "../services/userGroupsServices.js";
+import userServices from "../services/userServices.js";
+import groupServices from "../services/groupServices.js";
+
+const getUsersInGroups = async (req, res, next) => {
+    try {
+        res.json(await userGroupsServices.getAll());
+    } catch (err) {
+        console.error("Error while getting all users in groups");
+        next(err);
+    }
+}
+
+const getUserInGroup = async (req, res, next) => {
+    try {
+        if (!req?.params?.id) {
+            throw { message: "No paramter provided" };
+        }
+        const response = await userGroupsServices.getUserInGroup(req.params.id);
+        res.json(response);
+    } catch (err) {
+        console.error("Error while getting one user in one group");
+        next(err);
+    }
+}
+
+const getOwnerInGroup = async (req, res, next) => {
+    try {
+        if (!req?.params?.groupId) {
+            throw { message: "No paramter provided" };
+        }
+        const response = await userGroupsServices.getOwnerInGroup(req.params.groupId);
+        res.json(response);
+    } catch (err) {
+        console.error("Error while getting owner of one group");
+        next(err);
+    }
+}
+
+const addUserInGroup = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.body.userEmail);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+
+        const group = await groupServices.getGroup(req.body.groupId)
+        if (!group) {
+            throw { message: "No group found" };
+        }
+
+        const response = await userGroupsServices.addUserInGroup({
+            isOwner: req.body.isOwner,
+            user: {
+                connect: {
+                    id: user.id
+                }
+            },
+            group: {
+                connect: {
+                    id: group.id
+                }
+
+            }
+        });
+        res.json(response);
+    } catch (err) {
+        console.error("Error while adding one user in one group");
+        next(err);
+    }
+}
+
+const updateUserInGroup = async (req, res, next) => {
+    try {
+        if (!req?.params?.id) {
+            throw { message: "No paramter provided" };
+        }
+
+        const userInGroup = await userGroupsServices.getUserInGroup(req.params.id);
+
+        if (!userInGroup) {
+            throw { message: "UserGroup not found" };
+        }
+
+        const objectResponse = {};
+        if (req?.body?.isOwner === true || req?.body?.isOwner === false) {
+            objectResponse.isOwner = req.body.isOwner;
+        }
+
+        if (req?.body?.userEmail) {
+            const newUser = await userServices.getUserEmail(req.body.userEmail);
+            if (!newUser) {
+                throw { message: "No user found" };
+            }
+
+            objectResponse.user = {
+                connect: {
+                    id: newUser.id
+                }
+            }
+        }
+
+        if (req?.body?.groupId) {
+            const newGroup = await groupServices.getGroup(req.body.groupId);
+            if (!newGroup) {
+                throw { message: "No group found" };
+            }
+            objectResponse.group = {
+                connect: {
+                    id: newGroup.id
+                }
+            }
+        }
+        const response = await userGroupsServices.updateUserInGroup(req.params.id, objectResponse);
+        res.json(response);
+    } catch (err) {
+        console.error("Error while updating one user in one group");
+        next(err);
+    }
+}
+
+const deleteUserInGroup = async (req, res, next) => {
+    try {
+        if (!req?.params?.id) {
+            throw { message: "No paramter provided" };
+        }
+        const response = await userGroupsServices.deleteUserInGroup(req.params.id);
+        res.json({ message: response });
+    } catch (err) {
+        console.error("Error while deleting one wishlist");
+        next(err);
+    }
+}
+
+export default { getUsersInGroups, getUserInGroup, getOwnerInGroup, addUserInGroup, updateUserInGroup, deleteUserInGroup };

@@ -9,8 +9,8 @@ const router = express.Router();
 router.route("/")
     .get(requestMiddleware, itemWishlistController.getItemsInWishlists)
     .post([
-        check("wishlistId", "wishlist invalid").exists(),
-        check("itemId", "item invalid").exists(),
+        check("wishlistName", "wishlist invalid").exists(),
+        check("itemId", "item invalid").exists()
     ], validationMiddleware, requestMiddleware, itemWishlistController.addItemsInWishlist)
 
 router.route("/:id")

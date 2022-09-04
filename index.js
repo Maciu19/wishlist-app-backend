@@ -10,6 +10,8 @@ import wishlistRouter from "./routes/wishlistRoutes.js";
 import itemWishlistRouter from "./routes/itemWishlistRoutes.js";
 import groupRouter from "./routes/groupRoutes.js";
 import userGroupRouter from "./routes/userGroupsRoutes.js";
+import userRegisterRouter from "./routes/userRegisterRoutes.js"
+import userLoginRouter from "./routes/userLoginRoutes.js"
 
 dotenv.config();
 
@@ -22,7 +24,10 @@ app.get("/", (req, res) => {
     res.json({ message: "test ok" })
 });
 
+app.use("/register", userRegisterRouter);
+app.use("/login", userLoginRouter);
 app.use("/users", userRouter);
+
 app.use("/address", addressRouter);
 app.use("/usersDetails", userDetailsRouter);
 

@@ -4,7 +4,6 @@ import requestMiddleware from "../middleware/requestMiddleware.js";
 import validationMiddleware from "../middleware/validationMiddleware.js"
 import { check } from "express-validator";
 
-
 const router = express.Router();
 
 router.route("/")

@@ -33,7 +33,6 @@ app.use("/itemsWishlists", itemWishlistRouter);
 app.use("/groups", groupRouter);
 app.use("/usersGroups", userGroupRouter);
 
-
 app.use(errorMiddleware);
 
 app.listen(port, "0.0.0.0", () => {

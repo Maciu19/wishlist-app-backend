@@ -2,12 +2,12 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const getAll = async () => {
-    const groups = await prisma.group.findMany();
+    const groups = await prisma.groupsOfUsers.findMany();
     return groups;
 }
 
 const getGroup = async (name) => {
-    const group = await prisma.group.findUnique({
+    const group = await prisma.groupsOfUsers.findUnique({
         where: {
             name
         },
@@ -20,14 +20,14 @@ const getGroup = async (name) => {
 }
 
 const addGroup = async (groupInfo) => {
-    const group = await prisma.group.create({
+    const group = await prisma.groupsOfUsers.create({
         data: { ...groupInfo }
     });
     return group;
 }
 
 const updateGroup = async (name, groupInfo) => {
-    const group = await prisma.group.update({
+    const group = await prisma.groupsOfUsers.update({
         where: {
             name
         },
@@ -37,7 +37,7 @@ const updateGroup = async (name, groupInfo) => {
 }
 
 const deleteGroup = async (name) => {
-    const group = await prisma.group.delete({
+    const group = await prisma.groupsOfUsers.delete({
         where: {
             name
         }

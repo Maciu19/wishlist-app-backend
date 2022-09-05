@@ -10,6 +10,9 @@ const getAddress = async (id) => {
     const address = await prisma.userAddress.findUnique({
         where: {
             id
+        },
+        include: {
+            userDetails: true
         }
     });
     return address;

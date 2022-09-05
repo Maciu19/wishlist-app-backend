@@ -10,6 +10,11 @@ const getUserEmail = async (email) => {
     const user = await prisma.user.findUnique({
         where: {
             email
+        },
+        include: {
+            userDetails: true,
+            wishlist: true,
+            userInGroup: true
         }
     })
     return user;

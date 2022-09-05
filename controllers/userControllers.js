@@ -18,6 +18,7 @@ const getUser = async (req, res, next) => {
         }
 
         const response = await userServices.getUserEmail(req.params.email);
+        console.log(response);
         if (!response) {
             throw { message: "No user found" };
         }

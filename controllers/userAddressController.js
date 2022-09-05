@@ -11,7 +11,7 @@ const getAddresses = async (req, res, next) => {
 
 const getAddress = async (req, res, next) => {
     try {
-        if (!req?.paramas?.id) {
+        if (!req?.params?.id) {
             throw { message: "No paramter provided" };
         }
 

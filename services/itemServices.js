@@ -10,6 +10,9 @@ const getItem = async (id) => {
     const item = await prisma.item.findUnique({
         where: {
             id
+        },
+        include: {
+            itemWishlist: true
         }
     })
     return item;

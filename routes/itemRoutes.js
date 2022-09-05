@@ -17,7 +17,6 @@ router.route("/")
 router.route("/:id")
     .get(requestMiddleware, itemController.getItem)
     .patch(requestMiddleware, itemController.updateItem)
-    .put(requestMiddleware, itemController.updateItem2)
     .delete(requestMiddleware, itemController.deleteItem)
 
 export default router;

@@ -68,33 +68,6 @@ const updateItem = async (req, res, next) => {
     }
 };
 
-const updateItem2 = async (req, res, next) => {
-    try {
-        if (!req?.params?.id) {
-            throw { message: "No parameter provided" };
-        }
-
-        const id = req.params.id;
-        const item = await itemServices.getItem(id);
-
-        if (!item) {
-            throw { message: "Item not found" };
-        }
-
-        const response = await itemServices.updateItem(id, {
-            name: req?.body?.name,
-            details: req?.body?.details,
-            link: req?.body?.link,
-            size: req?.body?.size,
-        });
-
-        res.json(response);
-    } catch (err) {
-        console.error(`Error while updating 2 an item`);
-        next(err);
-    }
-};
-
 const deleteItem = async (req, res, next) => {
     try {
         if (!req?.params?.id) {
@@ -108,4 +81,4 @@ const deleteItem = async (req, res, next) => {
     }
 }
 
-export default { getItems, getItem, addItem, updateItem, updateItem2, deleteItem };
+export default { getItems, getItem, addItem, updateItem, deleteItem };

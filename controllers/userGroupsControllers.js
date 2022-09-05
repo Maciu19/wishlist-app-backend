@@ -26,10 +26,10 @@ const getUserInGroup = async (req, res, next) => {
 
 const getOwnerInGroup = async (req, res, next) => {
     try {
-        if (!req?.params?.groupId) {
+        if (!req?.params?.groupName) {
             throw { message: "No paramter provided" };
         }
-        const response = await userGroupsServices.getOwnerInGroup(req.params.groupId);
+        const response = await userGroupsServices.getOwnerInGroup(req.params.groupName);
         res.json(response);
     } catch (err) {
         console.error("Error while getting owner of one group");
@@ -44,7 +44,7 @@ const addUserInGroup = async (req, res, next) => {
             throw { message: "No user found" };
         }
 
-        const group = await groupServices.getGroup(req.body.groupId)
+        const group = await groupServices.getGroup(req.body.groupName)
         if (!group) {
             throw { message: "No group found" };
         }
@@ -100,8 +100,8 @@ const updateUserInGroup = async (req, res, next) => {
             }
         }
 
-        if (req?.body?.groupId) {
-            const newGroup = await groupServices.getGroup(req.body.groupId);
+        if (req?.body?.groupName) {
+            const newGroup = await groupServices.getGroup(req.body.groupName);
             if (!newGroup) {
                 throw { message: "No group found" };
             }

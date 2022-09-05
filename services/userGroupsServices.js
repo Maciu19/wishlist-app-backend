@@ -10,16 +10,24 @@ const getUserInGroup = async (id) => {
     const usersInGroup = await prisma.userInGroup.findUnique({
         where: {
             id
+        },
+        include: {
+            user: true,
+            group: true
         }
     })
     return usersInGroup;
 }
 
-const getOwnerInGroup = async (groupId) => {
+const getOwnerInGroup = async (groupName) => {
     const usersInGroup = await prisma.userInGroup.findFirst({
         where: {
             AND: [
-                { groupId: groupId },
+                {
+                    group: {
+                        name: groupName
+                    }
+                },
                 { isOwner: true }
             ]
         }

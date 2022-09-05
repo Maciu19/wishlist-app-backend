@@ -6,10 +6,14 @@ const getAll = async () => {
     return groups;
 }
 
-const getGroup = async (id) => {
+const getGroup = async (name) => {
     const group = await prisma.group.findUnique({
         where: {
-            id
+            name
+        },
+        include: {
+            userInGroup: true,
+            groupWishlist: true
         }
     })
     return group;
@@ -22,20 +26,20 @@ const addGroup = async (groupInfo) => {
     return group;
 }
 
-const updateGroup = async (id, groupInfo) => {
+const updateGroup = async (name, groupInfo) => {
     const group = await prisma.group.update({
         where: {
-            id
+            name
         },
         data: { ...groupInfo }
     })
     return group;
 }
 
-const deleteGroup = async (id) => {
+const deleteGroup = async (name) => {
     const group = await prisma.group.delete({
         where: {
-            id
+            name
         }
     })
     return group;

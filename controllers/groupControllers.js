@@ -11,10 +11,10 @@ const getGroups = async (req, res, next) => {
 
 const getGroup = async (req, res, next) => {
     try {
-        if (!req?.params?.id) {
+        if (!req?.params?.name) {
             throw { message: "No paramter provided" };
         }
-        const response = await groupServices.getGroup(req.params.id);
+        const response = await groupServices.getGroup(req.params.name);
         if (!response) {
             throw { message: "No group found" };
         }
@@ -39,17 +39,17 @@ const addGroup = async (req, res, next) => {
 
 const updateGroup = async (req, res, next) => {
     try {
-        if (!req?.params?.id) {
+        if (!req?.params?.name) {
             throw { message: "No paramter provided" };
         }
-        const id = req.params.id;
-        const group = await groupServices.getGroup(id);
+        const name = req.params.name;
+        const group = await groupServices.getGroup(name);
 
         if (!group) {
             throw { message: "Group not found" };
         }
 
-        const response = await groupServices.updateGroup(id, {
+        const response = await groupServices.updateGroup(name, {
             name: req?.body?.name || group.name
         });
 
@@ -62,10 +62,10 @@ const updateGroup = async (req, res, next) => {
 
 const deleteGroup = async (req, res, next) => {
     try {
-        if (!req?.params?.id) {
+        if (!req?.params?.name) {
             throw { message: "No paramter provided" };
         }
-        const response = await groupServices.deleteGroup(req.params.id);
+        const response = await groupServices.deleteGroup(req.params.name);
         res.json({ message: response });
     } catch (err) {
         console.error("Error while adding one group");

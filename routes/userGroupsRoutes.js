@@ -10,10 +10,10 @@ router.route("/")
     .get(requestMiddleware, userGroupsControllers.getUsersInGroups)
     .post([
         check("userEmail", "Invalid user email").isEmail(),
-        check("groupId", "Invalid group").exists()
+        check("groupName", "Invalid group").exists()
     ], validationMiddleware, requestMiddleware, userGroupsControllers.addUserInGroup)
 
-router.route("/owner/:groupId")
+router.route("/owner/:groupName")
     .get(requestMiddleware, userGroupsControllers.getOwnerInGroup)
 
 router.route("/:id")

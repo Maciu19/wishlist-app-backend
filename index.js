@@ -12,6 +12,7 @@ import groupRouter from "./routes/groupRoutes.js";
 import userGroupRouter from "./routes/userGroupsRoutes.js";
 import userRegisterRouter from "./routes/userRegisterRoutes.js"
 import userLoginRouter from "./routes/userLoginRoutes.js"
+import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ app.use("/register", userRegisterRouter);
 app.use("/login", userLoginRouter);
 app.use("/users", userRouter);
 
-app.use("/address", addressRouter);
+app.use("/addresses", addressRouter);
 app.use("/usersDetails", userDetailsRouter);
 
 app.use("/items", itemRouter);
@@ -37,6 +38,7 @@ app.use("/itemsWishlists", itemWishlistRouter);
 
 app.use("/groups", groupRouter);
 app.use("/usersGroups", userGroupRouter);
+app.use("/wishlistsGroups", groupWishlistRouter);
 
 app.use(errorMiddleware);
 

@@ -17,7 +17,11 @@ const getUserDetails = async (id) => {
 
 const addUserDetails = async (info) => {
     const details = await prisma.userDetails.create({
-        data: { ...info }
+        data: { ...info },
+        include: {
+            user: true,
+            userAddress: true
+        }
     })
     return details;
 }

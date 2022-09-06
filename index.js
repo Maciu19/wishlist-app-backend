@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 import express from "express"
 import bodyParser from "body-parser"
+import cors from "cors";
 import errorMiddleware from "./middleware/errorMiddleware.js"
 import itemRouter from "./routes/itemRoutes.js";
 import userRouter from "./routes/userRoutes.js";
@@ -17,6 +18,7 @@ import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
 dotenv.config();
 
 const app = express();
+app.get(cors());
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 3000;

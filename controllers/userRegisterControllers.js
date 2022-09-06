@@ -19,14 +19,11 @@ const userRegister = async (req, res, next) => {
         })
 
         // Date Format: MM/DD/YYYY
-        const dateSplit = req.body.dob.split("/");
-        const newDate = `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
-
         const response = await userDetailsServices.addUserDetails({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phone: req.body.phone,
-            dob: new Date(newDate).toISOString(),
+            dob: new Date(req.body.dob).toISOString(),
             user: {
                 connect: {
                     id: user.id

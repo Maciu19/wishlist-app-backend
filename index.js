@@ -44,7 +44,6 @@ app.use("/wishlistsGroups", groupWishlistRouter);
 
 app.use(errorMiddleware);
 
-
 app.listen(port, "0.0.0.0", () => {
     console.log(`Example app listening at http://localhost:${port}`);
 })

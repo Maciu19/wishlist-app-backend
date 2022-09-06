@@ -18,8 +18,8 @@ import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
 dotenv.config();
 
 const app = express();
-app.get(cors());
 app.use(bodyParser.json());
+app.options('*', cors());
 
 const port = process.env.PORT || 3000;
 
@@ -43,6 +43,7 @@ app.use("/usersGroups", userGroupRouter);
 app.use("/wishlistsGroups", groupWishlistRouter);
 
 app.use(errorMiddleware);
+
 
 app.listen(port, "0.0.0.0", () => {
     console.log(`Example app listening at http://localhost:${port}`);

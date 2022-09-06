@@ -19,7 +19,7 @@ dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
-app.options('*', cors());
+app.use(cors());
 
 const port = process.env.PORT || 3000;
 

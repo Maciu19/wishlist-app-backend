@@ -19,13 +19,29 @@ const getUser = async (req, res, next) => {
         }
 
         const response = await userServices.getUserEmail(req.params.email);
-        console.log(response);
         if (!response) {
             throw { message: "No user found" };
         }
         res.json(response);
     } catch (err) {
         console.error("Error while getting one user");
+        next(err);
+    }
+}
+
+const getUserToken = async (req, res, next) => {
+    try {
+        if (!req?.params?.email) {
+            throw { message: "No paramter provided" };
+        }
+
+        const response = await userServices.getUserEmail(req.params.email);
+        if (!response) {
+            throw { message: "No user found" };
+        }
+        res.json(response.token);
+    } catch (err) {
+        console.error("Error while getting one user token");
         next(err);
     }
 }
@@ -126,4 +142,4 @@ const loginUser = async (req, res, next) => {
     }
 }
 
-export default { getUsers, getUser, addUser, updateUser, updateUser2, deleteUser, loginUser };
+export default { getUsers, getUser, getUserToken, addUser, updateUser, updateUser2, deleteUser, loginUser };

@@ -14,4 +14,7 @@ router.route("/:email")
     .put(requestMiddleware, authMiddleware, userController.updateUser2)
     .delete(requestMiddleware, authMiddleware, userController.deleteUser)
 
+router.route("/:email/token")
+    .get(requestMiddleware, authMiddleware, userController.getUserToken)
+
 export default router;

@@ -12,6 +12,9 @@ const jwtMiddleware = async (req, res, next) => {
     }
 
     const user = await userServices.getUserEmail(req.params.email);
+    if (user.token === undefined) {
+        throw { message: "Token invalid" };
+    }
     const token = user.token;
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         try {
@@ -26,7 +29,7 @@ const jwtMiddleware = async (req, res, next) => {
                     await userServices.updateUser(user.email, { token: null })
                 }
 
-                console.log(minutes, user);
+                // console.log(minutes, user);
                 next();
             }
         } catch (e) {

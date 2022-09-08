@@ -12,7 +12,11 @@ const jwtMiddleware = async (req, res, next) => {
     }
 
     const user = await userServices.getUserEmail(req.params.email);
-    if (user.token === undefined) {
+    if (!user) {
+        throw { message: "User invalid" };
+    }
+
+    if (!user.token) {
         throw { message: "Token invalid" };
     }
     const token = user.token;

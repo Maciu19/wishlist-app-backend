@@ -131,7 +131,7 @@ const loginUser = async (req, res, next) => {
             const response = await userServices.updateUser(user.email, {
                 token: token
             })
-            res.json(response);
+            res.json(response.token);
         } else {
             throw { message: "Not allowed" };
         }

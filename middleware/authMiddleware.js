@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import getMinutesDiff from "../utils/minutesDiffUtils.js";
 import userServices from "../services/userServices.js";
 
 const jwtMiddleware = async (req, res, next) => {
@@ -11,29 +10,23 @@ const jwtMiddleware = async (req, res, next) => {
         throw { message: "Missing email" };
     }
 
-    const user = await userServices.getUserEmail(req.params.email);
-    if (!user) {
-        throw { message: "User invalid" };
+    const email = req.params.email;
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (token === null) {
+        return res.status(401).send("Invalid Token");
     }
-
-    if (!user.token) {
-        throw { message: "Token invalid" };
-    }
-    const token = user.token;
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         try {
             if (err) {
+                await userServices.updateUser(user.email, { token: null });
                 res.status(403).send("Invalid Token");
             } else {
-                const iat = new Date(decoded.iat * 1000);
-                const now = new Date();
-                const minutes = getMinutesDiff(iat, now);
-
-                if (minutes > 59) {
-                    await userServices.updateUser(user.email, { token: null })
+                if (decoded.user.email !== email) {
+                    res.status(401).send("Unauthorized");
+                    return;
                 }
-
-                // console.log(minutes, user);
+                req.user = decoded;
                 next();
             }
         } catch (e) {

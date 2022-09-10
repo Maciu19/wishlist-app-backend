@@ -10,10 +10,10 @@ router.route("/")
     .get(requestMiddleware, wishlistControllers.getWishlists)
     .post([
         check("name", "invalid name").exists(),
-        check("email", "Invalid email").isEmail()
+        check("ownerEmail", "Invalid email").isEmail()
     ], validationMiddleware, requestMiddleware, wishlistControllers.addWishlsit)
 
-router.route("/:name")
+router.route("/:id")
     .get(requestMiddleware, wishlistControllers.getWishlist)
     .patch(requestMiddleware, wishlistControllers.updateWishlist)
     .delete(requestMiddleware, wishlistControllers.deleteWishlist)

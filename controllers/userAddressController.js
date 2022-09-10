@@ -33,7 +33,7 @@ const addAddress = async (req, res, next) => {
         const response = await userAddressServices.addAddress({
             city: req.body.city,
             country: req.body.country,
-            detaliedAddress: req.body.detaliedAddress
+            completeAddress: req.body.completeAddress
         })
 
         res.json(response);
@@ -55,7 +55,7 @@ const updateAddress = async (req, res, next) => {
         const response = await userAddressServices.updateAddress(id, {
             city: req.body.city || address.city,
             country: req.body.country || address.country,
-            detaliedAddress: req.body.detaliedAddress || address.detaliedAddress
+            completeAddress: req.body.completeAddress || address.completeAddress
         })
 
         res.json(response);

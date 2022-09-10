@@ -31,7 +31,7 @@ const getItemsInWishlist = async (req, res, next) => {
 
 const addItemsInWishlist = async (req, res, next) => {
     try {
-        const wishlist = await wishlistServices.getWishlistByName(req.body.wishlistName);
+        const wishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
         if (!wishlist) {
             throw { message: "No wishlist found" };
         }
@@ -78,8 +78,8 @@ const updateItemsInWishlist = async (req, res, next) => {
             objectResponse.isBought = req.body.isBought;
         }
 
-        if (req?.body?.wishlistName) {
-            const newWishlist = await wishlistServices.getWishlistByName(req.body.wishlistName);
+        if (req?.body?.wishlistId) {
+            const newWishlist = await wishlistServices.getWishlistByName(req.body.wishlistId);
             if (!newWishlist) {
                 throw { message: "No wishlist found" };
             }

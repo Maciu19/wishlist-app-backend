@@ -1,4 +1,5 @@
 import userServices from "../services/userServices.js"
+import userDetailsServices from "../services/userDetailsServices.js";
 import userAddressServices from "../services/userAddressServices.js";
 import authUtil from "../utils/authUtils.js";
 import bcrypt from "bcrypt";
@@ -14,34 +15,13 @@ const getUsers = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
     try {
-        if (!req?.params?.email) {
-            throw { message: "No paramter provided" };
-        }
-
-        const response = await userServices.getUserEmail(req.params.email);
+        const response = await userServices.getUserEmail(req.user.user.email);
         if (!response) {
             throw { message: "No user found" };
         }
         res.json(response);
     } catch (err) {
         console.error("Error while getting one user");
-        next(err);
-    }
-}
-
-const getUserToken = async (req, res, next) => {
-    try {
-        if (!req?.params?.email) {
-            throw { message: "No paramter provided" };
-        }
-
-        const response = await userServices.getUserEmail(req.params.email);
-        if (!response) {
-            throw { message: "No user found" };
-        }
-        res.json(response.token);
-    } catch (err) {
-        console.error("Error while getting one user token");
         next(err);
     }
 }
@@ -63,57 +43,33 @@ const addUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
     try {
-        if (!req?.params?.email) {
-            throw { message: "No parameter provided" };
-        }
-
-        const email = req.params.email;
+        const email = req.user.user.email;
         const user = await userServices.getUserEmail(email);
 
         const hashPassword = req?.body?.password && await bcrypt.hash(req.body.password, 10);
 
+        // Email cannot be change
         const response = await userServices.updateUser(email, {
             username: req?.body?.username || user.username,
             password: hashPassword || user.password,
-            email: req?.body?.email || user.email
         });
 
         res.json(response);
     } catch (err) {
-        console.error("Error while updating POST an user");
+        console.error("Error while updating an user");
         next(err);
     }
 };
 
-const updateUser2 = async (req, res, next) => {
-    try {
-        if (!req?.params?.email) {
-            throw { message: "No parameter provided" };
-        }
-
-        const hashPassword = req?.body?.password && await bcrypt.hash(req.body.password, 10);
-
-        const response = await userServices.updateUser(req.params.email, {
-            username: req?.body?.username,
-            password: hashPassword,
-            email: req?.body?.email
-        });
-
-        res.json(response);
-    } catch (err) {
-        console.error("Error while updating PUT an user");
-        next(err);
-    }
-};
 
 const deleteUser = async (req, res, next) => {
     try {
-        if (!req?.params?.email) {
-            throw { message: "No paramter provided" };
-        }
+        const userInfo = await userServices.getUserEmail(req.user.user.email);
 
-        const reponse = await userServices.deleteUser(req.params.email);
-        res.json({ message: reponse });
+        const deleteUserDetails = await userDetailsServices.deleteUserDetails(userInfo.userDetails.id);
+        const deleteUserAddress = await userAddressServices.deleteAddress(userInfo.userDetails.userAddressId);
+        const deleteUser = await userServices.deleteUser(req.user.user.email);
+        res.json({ message: userInfo });
     } catch (err) {
         console.error("Error while deleting an user");
         next(err);
@@ -131,7 +87,7 @@ const loginUser = async (req, res, next) => {
             const response = await userServices.updateUser(user.email, {
                 token: token
             })
-            res.json(response.token);
+            res.json(response);
         } else {
             throw { message: "Not allowed" };
         }
@@ -142,4 +98,4 @@ const loginUser = async (req, res, next) => {
     }
 }
 
-export default { getUsers, getUser, getUserToken, addUser, updateUser, updateUser2, deleteUser, loginUser };
+export default { getUsers, getUser, addUser, updateUser, deleteUser, loginUser };

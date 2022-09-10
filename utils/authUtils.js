@@ -8,7 +8,7 @@ const generateAuthToken = (email, password) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "30sec" }
+        { expiresIn: "1h" }
     );
 }
 

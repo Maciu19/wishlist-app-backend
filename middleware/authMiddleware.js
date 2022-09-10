@@ -6,24 +6,29 @@ const jwtMiddleware = async (req, res, next) => {
         throw { message: "Missing JWT Secret" };
     }
 
-    if (!req?.params?.email) {
-        throw { message: "Missing email" };
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+        return res.status(401).send("Authorization header missing");
     }
 
-    const email = req.params.email;
-    const authHeader = req.headers["authorization"];
+    if (!authHeader.startsWith("Bearer")) {
+        return res.status(401).send("Invalid authorization header");
+    }
+
     const token = authHeader && authHeader.split(" ")[1];
-    if (token === null) {
-        return res.status(401).send("Invalid Token");
+    if (!token) {
+        return res.status(401).send("Token missing");
     }
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         try {
             if (err) {
-                await userServices.updateUser(user.email, { token: null });
+                // If the token expires, in the database won't change to "null"
                 res.status(403).send("Invalid Token");
             } else {
-                if (decoded.user.email !== email) {
-                    res.status(401).send("Unauthorized");
+                // When the user is deleted, and the token remains availabe
+                const user = await userServices.getUserEmail(decoded.user.email);
+                if (!user) {
+                    res.status(403).send("Invalid User");
                     return;
                 }
                 req.user = decoded;

@@ -12,10 +12,10 @@ const getWishlists = async (req, res, next) => {
 
 const getWishlist = async (req, res, next) => {
     try {
-        if (!req?.params?.name) {
+        if (!req?.params?.id) {
             throw { message: "No paramter provided" };
         }
-        const response = await wishlistServices.getWishlistByName(req.params.name);
+        const response = await wishlistServices.getWishlistById(req.params.id);
 
         if (!response) {
             throw { message: "No wishlist found" };
@@ -31,7 +31,7 @@ const getWishlist = async (req, res, next) => {
 const addWishlsit = async (req, res, next) => {
     try {
         // username -> ownerUsername
-        const user = await userServices.getUserEmail(req.body.email);
+        const user = await userServices.getUserEmail(req.body.ownerEmail);
         if (!user) {
             throw { message: "No user found" };
         }
@@ -54,11 +54,11 @@ const addWishlsit = async (req, res, next) => {
 
 const updateWishlist = async (req, res, next) => {
     try {
-        if (!req?.params?.name) {
+        if (!req?.params?.id) {
             throw { message: "No paramter provided" };
         }
 
-        const wishlist = await wishlistServices.getWishlistByName(req.params.name);
+        const wishlist = await wishlistServices.getWishlistById(req.params.id);
 
         if (!wishlist) {
             throw { message: "wishlist not found" };
@@ -72,8 +72,8 @@ const updateWishlist = async (req, res, next) => {
             objectResponse.isBought = req.body.isBought;
         }
 
-        if (req?.body?.email) {
-            const user = await userServices.getUserEmail(req.body.email);
+        if (req?.body?.ownerEmail) {
+            const user = await userServices.getUserEmail(req.body.ownerEmail);
             if (!user) {
                 throw { message: "user not found" };
             }
@@ -83,7 +83,7 @@ const updateWishlist = async (req, res, next) => {
                 }
             }
         }
-        const response = await wishlistServices.updateWishlist(req.params.name, objectResponse);
+        const response = await wishlistServices.updateWishlist(req.params.id, objectResponse);
         res.json(response);
     } catch (err) {
         console.error("Error while updating one wishlist");
@@ -93,10 +93,10 @@ const updateWishlist = async (req, res, next) => {
 
 const deleteWishlist = async (req, res, next) => {
     try {
-        if (!req?.params?.name) {
+        if (!req?.params?.id) {
             throw { message: "No paramter provided" };
         }
-        const response = await wishlistServices.deleteWishlist(req.params.name);
+        const response = await wishlistServices.deleteWishlist(req.params.id);
         res.json({ message: response });
     } catch (err) {
         console.error("Error while deleting one wishlist");

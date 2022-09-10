@@ -2,7 +2,12 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const getAll = async () => {
-    const itemsInWishlists = await prisma.itemWishlist.findMany();
+    const itemsInWishlists = await prisma.itemWishlist.findMany({
+        include: {
+            item: true,
+            wishlist: true
+        }
+    });
     return itemsInWishlists;
 }
 
@@ -21,7 +26,11 @@ const getItemsInWishlist = async (id) => {
 
 const addItemsInWishlist = async (info) => {
     const itemsInWishlist = await prisma.itemWishlist.create({
-        data: { ...info }
+        data: { ...info },
+        include: {
+            item: true,
+            wishlist: true
+        }
     })
     return itemsInWishlist;
 }
@@ -31,7 +40,11 @@ const updateItemsInWishlist = async (id, info) => {
         where: {
             id
         },
-        data: { ...info }
+        data: { ...info },
+        include: {
+            item: true,
+            wishlist: true
+        }
     })
     return itemsInWishlist;
 }
@@ -41,6 +54,10 @@ const deleteItemsInWishlist = async (id) => {
     const itemsInWishlist = await prisma.itemWishlist.delete({
         where: {
             id
+        },
+        include: {
+            item: true,
+            wishlist: true
         }
     })
     return itemsInWishlist;

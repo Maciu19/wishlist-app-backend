@@ -2,7 +2,11 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const getAll = async () => {
-    const items = await prisma.item.findMany();
+    const items = await prisma.item.findMany({
+        include: {
+            itemWishlist: true
+        }
+    });
     return items;
 }
 

@@ -31,12 +31,12 @@ const getGroupWishlist = async (req, res, next) => {
 
 const addGroupWishlist = async (req, res, next) => {
     try {
-        const wishlist = await wishlistServices.getWishlistByName(req.body.wishlistName);
+        const wishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
         if (!wishlist) {
             throw { message: "No wishlist found" };
         }
 
-        const group = await groupServices.getGroup(req.body.groupName);
+        const group = await groupServices.getGroup(req.body.groupId);
         if (!group) {
             throw { message: "No group found" };
         }
@@ -75,8 +75,8 @@ const updateGroupWishlist = async (req, res, next) => {
 
         const objectResponse = {};
 
-        if (req?.body?.wishlistName) {
-            const newWishlist = await wishlistServices.getWishlistByName(req.body.wishlistName);
+        if (req?.body?.wishlistId) {
+            const newWishlist = await wishlistServices.getWishlistByName(req.body.wishlistId);
             if (!newWishlist) {
                 throw { message: "No wishlist found" };
             }
@@ -88,8 +88,8 @@ const updateGroupWishlist = async (req, res, next) => {
             }
         }
 
-        if (req?.body?.groupName) {
-            const newGroup = await groupServices.getGroup(req.body.groupName);
+        if (req?.body?.groupId) {
+            const newGroup = await groupServices.getGroup(req.body.groupId);
             if (!newGroup) {
                 throw { message: "No group found" };
             }

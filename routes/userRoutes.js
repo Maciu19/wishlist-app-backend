@@ -5,16 +5,12 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/")
-    .get(requestMiddleware, userController.getUsers)
+router.route("/all")
+    .get(requestMiddleware, authMiddleware, userController.getUsers)
 
-router.route("/:email")
+router.route("/")
     .get(requestMiddleware, authMiddleware, userController.getUser)
     .patch(requestMiddleware, authMiddleware, userController.updateUser)
-    .put(requestMiddleware, authMiddleware, userController.updateUser2)
     .delete(requestMiddleware, authMiddleware, userController.deleteUser)
-
-router.route("/:email/token")
-    .get(requestMiddleware, authMiddleware, userController.getUserToken)
 
 export default router;

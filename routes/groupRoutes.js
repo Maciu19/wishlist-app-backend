@@ -12,7 +12,7 @@ router.route("/")
         check("name", "Invalid name").exists()
     ], validationMiddleware, requestMiddleware, groupControllers.addGroup)
 
-router.route("/:name")
+router.route("/:id")
     .get(requestMiddleware, groupControllers.getGroup)
     .patch(requestMiddleware, groupControllers.updateGroup)
     .delete(requestMiddleware, groupControllers.deleteGroup)

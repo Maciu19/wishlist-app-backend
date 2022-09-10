@@ -41,7 +41,7 @@ model userAddress {
   id              String       @id @default(uuid())
   city            String
   country         String
-  detaliedAddress String
+  completeAddress String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   userDetails     userDetails?

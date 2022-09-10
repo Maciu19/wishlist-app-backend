@@ -2,7 +2,14 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const getAll = async () => {
-    const usersInGroups = await prisma.userInGroup.findMany();
+    const usersInGroups = await prisma.userInGroup.findMany(
+        {
+            include: {
+                user: true,
+                group: true
+            }
+        }
+    );
     return usersInGroups;
 }
 
@@ -19,17 +26,21 @@ const getUserInGroup = async (id) => {
     return usersInGroup;
 }
 
-const getOwnerInGroup = async (groupName) => {
+const getOwnerInGroup = async (groupId) => {
     const usersInGroup = await prisma.userInGroup.findFirst({
         where: {
             AND: [
                 {
                     group: {
-                        name: groupName
+                        id: groupId
                     }
                 },
                 { isOwner: true }
             ]
+        },
+        include: {
+            user: true,
+            group: true
         }
     })
     return usersInGroup;
@@ -37,7 +48,11 @@ const getOwnerInGroup = async (groupName) => {
 
 const addUserInGroup = async (info) => {
     const usersInGroup = await prisma.userInGroup.create({
-        data: { ...info }
+        data: { ...info },
+        include: {
+            user: true,
+            group: true
+        }
     })
     return usersInGroup;
 }
@@ -47,7 +62,11 @@ const updateUserInGroup = async (id, info) => {
         where: {
             id
         },
-        data: { ...info }
+        data: { ...info },
+        include: {
+            user: true,
+            group: true
+        }
     })
     return usersInGroup;
 }
@@ -57,6 +76,10 @@ const deleteUserInGroup = async (id) => {
     const usersInGroup = await prisma.userInGroup.delete({
         where: {
             id
+        },
+        include: {
+            user: true,
+            group: true
         }
     })
     return usersInGroup;

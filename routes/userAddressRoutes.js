@@ -11,7 +11,7 @@ router.route("/")
     .post([
         check("city", "Invalid City").exists(),
         check("country", "Invalid Country").exists(),
-        check("detaliedAddress", "Invalid Address").isLength({ min: 5 })
+        check("completeAddress", "Invalid Address").isLength({ min: 5 })
     ], validationMiddleware, requestMiddleware, userAddressController.addAddress)
 
 router.route("/:id")

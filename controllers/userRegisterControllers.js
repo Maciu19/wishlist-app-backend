@@ -8,7 +8,7 @@ const userRegister = async (req, res, next) => {
         const address = await userAddressServices.addAddress({
             city: req.body.city,
             country: req.body.country,
-            detaliedAddress: req.body.detaliedAddress
+            completeAddress: req.body.completeAddress
         })
 
         const hashPassword = await bcrypt.hash(req.body.password, 10);

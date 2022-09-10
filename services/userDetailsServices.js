@@ -2,7 +2,12 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const getAllUserDetails = async () => {
-    const details = await prisma.userDetails.findMany();
+    const details = await prisma.userDetails.findMany({
+        include: {
+            user: true,
+            userAddress: true
+        }
+    });
     return details;
 }
 
@@ -10,6 +15,10 @@ const getUserDetails = async (id) => {
     const details = await prisma.userDetails.findUnique({
         where: {
             id
+        },
+        include: {
+            user: true,
+            userAddress: true
         }
     });
     return details;

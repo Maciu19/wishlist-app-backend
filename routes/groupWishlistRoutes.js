@@ -9,8 +9,8 @@ const router = express.Router();
 router.route("/")
     .get(requestMiddleware, groupWishlistController.getGroupsWishlists)
     .post([
-        check("wishlistName", "Wishlist invalid").exists(),
-        check("groupName", "Group invalid").exists()
+        check("wishlistId", "Wishlist invalid").exists(),
+        check("groupId", "Group invalid").exists()
     ], validationMiddleware, requestMiddleware, groupWishlistController.addGroupWishlist)
 
 router.route("/:id")

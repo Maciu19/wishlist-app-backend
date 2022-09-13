@@ -21,6 +21,7 @@ model user {
   userDetails userDetails?
   wishlist    wishlist[]
   userInGroup userInGroup[]
+  purchase    purchase[]
 }
 
 model userDetails {
@@ -60,14 +61,15 @@ model wishlist {
 }
 
 model itemWishlist {
-  id         String   @id @default(uuid())
-  isBought   Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  wishlist   wishlist @relation(fields: [wishlistId], references: [id])
+  id         String     @id @default(uuid())
+  isBought   Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  wishlist   wishlist   @relation(fields: [wishlistId], references: [id])
   wishlistId String
-  item       item     @relation(fields: [itemId], references: [id])
+  item       item       @relation(fields: [itemId], references: [id])
   itemId     String
+  purchase   purchase[]
 }
 
 model item {
@@ -109,4 +111,14 @@ model groupWishlist {
   groupId    String
   wishlist   wishlist      @relation(fields: [wishlistId], references: [id])
   wishlistId String
+}
+
+model purchase {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  user           user         @relation(fields: [userId], references: [id])
+  userId         String
+  itemWishlist   itemWishlist @relation(fields: [itemWishlistId], references: [id])
+  itemWishlistId String
 }

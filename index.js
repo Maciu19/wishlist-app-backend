@@ -14,6 +14,7 @@ import userGroupRouter from "./routes/userGroupsRoutes.js";
 import userRegisterRouter from "./routes/userRegisterRoutes.js"
 import userLoginRouter from "./routes/userLoginRoutes.js"
 import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
+import purchasesRouter from "./routes/purchaseRoutes.js";
 
 dotenv.config();
 
@@ -43,6 +44,8 @@ app.use("/itemsWishlists", itemWishlistRouter);
 app.use("/groups", groupRouter);
 app.use("/usersGroups", userGroupRouter);
 app.use("/wishlistsGroups", groupWishlistRouter);
+
+app.use("/purchases", purchasesRouter);
 
 app.use(errorMiddleware);
 

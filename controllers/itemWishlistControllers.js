@@ -1,6 +1,8 @@
 import itemWishlistServices from "../services/itemWishlistServices.js";
 import wishlistServices from "../services/wishlistServices.js";
 import itemServices from "../services/itemServices.js";
+import userServices from "../services/userServices.js";
+import purchaseServices from "../services/purchaseServices.js";
 
 const getItemsInWishlists = async (req, res, next) => {
     try {
@@ -76,6 +78,45 @@ const updateItemsInWishlist = async (req, res, next) => {
         const objectResponse = {};
         if (req?.body?.isBought === true || req?.body?.isBought === false) {
             objectResponse.isBought = req.body.isBought;
+            if (req?.body?.isBought === true) {
+                if (!req?.body?.buyers) {
+                    throw { message: "Buyers invalid" };
+                }
+
+                if (!Array.isArray(req.body.buyers)) {
+                    throw { message: "Buyers should be an array" }
+                }
+
+                const buyers = req.body.buyers;
+                if (buyers.length === 0) {
+                    throw { message: "Buyers invalid" };
+                }
+
+                for (let buyer of buyers) {
+                    if (!typeof buyer === "string") {
+                        throw { message: "Buyers should be strings" }
+                    }
+
+                    let user = await userServices.getUserEmail(buyer);
+                    if (!user) {
+                        throw { message: "Invalid Buyer" };
+                    }
+
+                    await purchaseServices.addPurchase({
+                        itemWishlist: {
+                            connect: {
+                                id: itemsInWishlist.id
+                            }
+                        },
+                        user: {
+                            connect: {
+                                id: user.id
+                            }
+                        }
+                    })
+                }
+
+            }
         }
 
         if (req?.body?.wishlistId) {

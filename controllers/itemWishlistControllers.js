@@ -3,6 +3,7 @@ import wishlistServices from "../services/wishlistServices.js";
 import itemServices from "../services/itemServices.js";
 import userServices from "../services/userServices.js";
 import purchaseServices from "../services/purchaseServices.js";
+import notificationServices from "../services/notificationServices.js";
 
 const getItemsInWishlists = async (req, res, next) => {
     try {
@@ -88,6 +89,7 @@ const updateItemsInWishlist = async (req, res, next) => {
                 }
 
                 const buyers = req.body.buyers;
+                let usernamesOfBuyers = [];
                 if (buyers.length === 0) {
                     throw { message: "Buyers invalid" };
                 }
@@ -101,6 +103,8 @@ const updateItemsInWishlist = async (req, res, next) => {
                     if (!user) {
                         throw { message: "Invalid Buyer" };
                     }
+
+                    usernamesOfBuyers.push(user.username);
 
                     await purchaseServices.addPurchase({
                         itemWishlist: {
@@ -116,11 +120,21 @@ const updateItemsInWishlist = async (req, res, next) => {
                     })
                 }
 
+                notificationServices.addNotification({
+                    category: "GIFT",
+                    details: `${usernamesOfBuyers} bought you from the wishlist "${itemsInWishlist.wishlist.name}", the item: "${itemsInWishlist.item.name} ${itemsInWishlist.item.details}"`,
+                    user: {
+                        connect: {
+                            id: itemsInWishlist.wishlist.ownerId
+                        }
+                    }
+                })
+
             }
         }
 
         if (req?.body?.wishlistId) {
-            const newWishlist = await wishlistServices.getWishlistByName(req.body.wishlistId);
+            const newWishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
             if (!newWishlist) {
                 throw { message: "No wishlist found" };
             }

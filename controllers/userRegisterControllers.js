@@ -18,12 +18,11 @@ const userRegister = async (req, res, next) => {
             email: req.body.email,
         })
 
-        // Date Format: MM/DD/YYYY
         const response = await userDetailsServices.addUserDetails({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phone: req.body.phone,
-            dob: new Date(req.body.dob).toISOString(),
+            dob: new Date(req.body.dob),
             user: {
                 connect: {
                     id: user.id

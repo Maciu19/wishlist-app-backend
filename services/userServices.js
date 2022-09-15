@@ -7,7 +7,8 @@ const getAll = async () => {
             userDetails: true,
             wishlist: true,
             userInGroup: true,
-            purchase: true
+            purchase: true,
+            notification: true
         }
     });
     return users;
@@ -22,7 +23,8 @@ const getUserEmail = async (email) => {
             userDetails: true,
             wishlist: true,
             userInGroup: true,
-            purchase: true
+            purchase: true,
+            notification: true
         }
     })
     return user;
@@ -35,7 +37,8 @@ const addUser = async (userInfo) => {
             userDetails: true,
             wishlist: true,
             userInGroup: true,
-            purchase: true
+            purchase: true,
+            notification: true
         }
     });
     return user;
@@ -51,7 +54,8 @@ const updateUser = async (email, userInfo) => {
             userDetails: true,
             wishlist: true,
             userInGroup: true,
-            purchase: true
+            purchase: true,
+            notification: true
         }
     })
     return user;
@@ -66,7 +70,8 @@ const deleteUser = async (email) => {
             userDetails: true,
             wishlist: true,
             userInGroup: true,
-            purchase: true
+            purchase: true,
+            notification: true
         }
     })
     return user;

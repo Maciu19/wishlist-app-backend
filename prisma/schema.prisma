@@ -11,17 +11,18 @@ datasource db {
 }
 
 model user {
-  id          String        @id @default(uuid())
-  username    String        @unique
-  password    String
-  email       String        @unique
-  token       String?       @unique @db.VarChar(400)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  userDetails userDetails?
-  wishlist    wishlist[]
-  userInGroup userInGroup[]
-  purchase    purchase[]
+  id           String         @id @default(uuid())
+  username     String         @unique
+  password     String
+  email        String         @unique
+  token        String?        @unique @db.VarChar(400)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  userDetails  userDetails?
+  wishlist     wishlist[]
+  userInGroup  userInGroup[]
+  purchase     purchase[]
+  notification notification[]
 }
 
 model userDetails {
@@ -121,4 +122,21 @@ model purchase {
   userId         String
   itemWishlist   itemWishlist @relation(fields: [itemWishlistId], references: [id])
   itemWishlistId String
+}
+
+model notification {
+  id        String   @id @default(uuid())
+  category  Category
+  details   String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      user     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+enum Category {
+  GROUP
+  GIFT
+  EVENT
 }

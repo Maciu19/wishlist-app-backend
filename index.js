@@ -15,6 +15,9 @@ import userRegisterRouter from "./routes/userRegisterRoutes.js"
 import userLoginRouter from "./routes/userLoginRoutes.js"
 import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
 import purchasesRouter from "./routes/purchaseRoutes.js";
+import notificationsRouter from "./routes/notificationRoutes.js";
+
+import birdayChecker from "./utils/birthdayChecker.js";
 
 dotenv.config();
 
@@ -46,6 +49,7 @@ app.use("/usersGroups", userGroupRouter);
 app.use("/wishlistsGroups", groupWishlistRouter);
 
 app.use("/purchases", purchasesRouter);
+app.use("/notifications", notificationsRouter)
 
 app.use(errorMiddleware);
 

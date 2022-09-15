@@ -1,6 +1,7 @@
 import userGroupsServices from "../services/userGroupsServices.js";
 import userServices from "../services/userServices.js";
 import groupServices from "../services/groupServices.js";
+import notificationServices from "../services/notificationServices.js";
 
 const getUsersInGroups = async (req, res, next) => {
     try {
@@ -47,6 +48,19 @@ const addUserInGroup = async (req, res, next) => {
         const group = await groupServices.getGroup(req.body.groupId)
         if (!group) {
             throw { message: "No group found" };
+        }
+
+        if (req.body.isOwner === false) {
+            const owner = await userGroupsServices.getOwnerInGroup(req.params.groupId);
+            notificationServices.addNotification({
+                details: `${user.username} joined in your group: "${group.name}"`,
+                category: "GROUP",
+                user: {
+                    connect: {
+                        id: owner.user.id
+                    }
+                }
+            })
         }
 
         const response = await userGroupsServices.addUserInGroup({
@@ -114,7 +128,7 @@ const updateUserInGroup = async (req, res, next) => {
         const response = await userGroupsServices.updateUserInGroup(req.params.id, objectResponse);
         res.json(response);
     } catch (err) {
-        console.error("Error while updating one user in one group");
+        console.error("Error while updating one user one group");
         next(err);
     }
 }

@@ -98,4 +98,21 @@ const loginUser = async (req, res, next) => {
     }
 }
 
-export default { getUsers, getUser, addUser, updateUser, deleteUser, loginUser };
+const logoutUser = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+
+        const response = await userServices.updateUser(user.email, {
+            token: null
+        })
+        res.json(response);
+    } catch (err) {
+        console.error("Error while getting one user");
+        next(err);
+    }
+}
+
+export default { getUsers, getUser, addUser, updateUser, deleteUser, loginUser, logoutUser };

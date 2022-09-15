@@ -16,7 +16,7 @@ import userLoginRouter from "./routes/userLoginRoutes.js"
 import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
 import purchasesRouter from "./routes/purchaseRoutes.js";
 import notificationsRouter from "./routes/notificationRoutes.js";
-
+import userLogoutRouter from "./routes/userLogoutRoutes.js";
 import birdayChecker from "./utils/birthdayChecker.js";
 
 dotenv.config();
@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
 
 app.use("/register", userRegisterRouter);
 app.use("/login", userLoginRouter);
+app.use("/logout", userLogoutRouter);
 app.use("/users", userRouter);
 
 app.use("/addresses", addressRouter);

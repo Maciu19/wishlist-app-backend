@@ -8,13 +8,13 @@ import notificationServices from "../services/notificationServices.js";
 const birdayChecker = schedule.scheduleJob("0 0 * * *", async () => {
     const users = await usersDetailsServices.getAllUserDetails();
 
-    if ((userDetailsDob.getMonth() === currentDay.getMonth()) && (userDetailsDob.getDate() === currentDay.getDate())) {
+    let currentDay = new Date();
+    currentDay = dateUTC(currentDay);
 
-        let currentDay = new Date();
-        currentDay = dateUTC(currentDay);
+    for (let user of users) {
+        let userDetailsDob = user.dob;
 
-        for (let user of users) {
-            let userDetailsDob = user.dob;
+        if ((userDetailsDob.getMonth() === currentDay.getMonth()) && (userDetailsDob.getDate() === currentDay.getDate())) {
 
             let userInfo = await userServices.getUserEmail(user.user.email);
             let userGroups = userInfo.userInGroup;

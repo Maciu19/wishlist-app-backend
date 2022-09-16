@@ -23,7 +23,7 @@ const changeProfileDetails = async (req, res, next) => {
             firstName: req?.body?.firstName || user.userDetails.firstName,
             lastName: req?.body?.lastName || user.userDetails.lastName,
             phone: req?.body?.phone || user.userDetails.phone,
-            avatar: req?.body?.avatar || ""
+            avatar: req?.body?.avatar || user.userDetails.avatar
         };
 
         if (req?.body?.dob) {

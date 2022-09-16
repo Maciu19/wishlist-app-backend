@@ -23,13 +23,13 @@ const changeProfileDetails = async (req, res, next) => {
             firstName: req?.body?.firstName || user.userDetails.firstName,
             lastName: req?.body?.lastName || user.userDetails.lastName,
             phone: req?.body?.phone || user.userDetails.phone,
+            avatar: req?.body?.avatar || ""
         };
 
         if (req?.body?.dob) {
             const newDate = new Date(req.body.dob)
             responseObj.dob = newDate;
         }
-
         const userDetailsUpdate = await userDetailsServices.updateUserDetails(user.userDetails.id, responseObj);
 
         //Update User Address

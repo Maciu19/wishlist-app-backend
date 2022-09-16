@@ -4,7 +4,11 @@ const prisma = new PrismaClient()
 const getAll = async () => {
     const users = await prisma.user.findMany({
         include: {
-            userDetails: true,
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
             wishlist: true,
             userInGroup: true,
             purchase: true,
@@ -20,7 +24,11 @@ const getUserId = async (id) => {
             id
         },
         include: {
-            userDetails: true,
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
             wishlist: true,
             userInGroup: true,
             purchase: true,
@@ -36,7 +44,11 @@ const getUserEmail = async (email) => {
             email
         },
         include: {
-            userDetails: true,
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
             wishlist: true,
             userInGroup: true,
             purchase: true,
@@ -50,7 +62,11 @@ const addUser = async (userInfo) => {
     const user = await prisma.user.create({
         data: { ...userInfo },
         include: {
-            userDetails: true,
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
             wishlist: true,
             userInGroup: true,
             purchase: true,
@@ -67,7 +83,11 @@ const updateUser = async (email, userInfo) => {
         },
         data: { ...userInfo },
         include: {
-            userDetails: true,
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
             wishlist: true,
             userInGroup: true,
             purchase: true,
@@ -83,7 +103,11 @@ const deleteUser = async (email) => {
             email
         },
         include: {
-            userDetails: true,
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
             wishlist: true,
             userInGroup: true,
             purchase: true,

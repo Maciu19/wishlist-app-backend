@@ -31,6 +31,7 @@ model userDetails {
   lastName      String
   phone         String
   dob           DateTime
+  avatar        String?     @unique @db.VarChar(400)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   user          user        @relation(fields: [userId], references: [id])

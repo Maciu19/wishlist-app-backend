@@ -2,6 +2,7 @@ import express from "express"
 import wishlistControllers from "../controllers/wishlistControllers.js"
 import requestMiddleware from "../middleware/requestMiddleware.js";
 import validationMiddleware from "../middleware/validationMiddleware.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 import { check } from "express-validator";
 
 const router = express.Router();
@@ -9,9 +10,8 @@ const router = express.Router();
 router.route("/")
     .get(requestMiddleware, wishlistControllers.getWishlists)
     .post([
-        check("name", "invalid name").exists(),
-        check("ownerEmail", "Invalid email").isEmail()
-    ], validationMiddleware, requestMiddleware, wishlistControllers.addWishlsit)
+        check("name", "invalid name").exists()
+    ], validationMiddleware, requestMiddleware, authMiddleware, wishlistControllers.addWishlsit)
 
 router.route("/:id")
     .get(requestMiddleware, wishlistControllers.getWishlist)

@@ -30,8 +30,7 @@ const getWishlist = async (req, res, next) => {
 
 const addWishlsit = async (req, res, next) => {
     try {
-        // username -> ownerUsername
-        const user = await userServices.getUserEmail(req.body.ownerEmail);
+        const user = await userServices.getUserEmail(req.user.user.email);
         if (!user) {
             throw { message: "No user found" };
         }
@@ -72,17 +71,6 @@ const updateWishlist = async (req, res, next) => {
             objectResponse.isBought = req.body.isBought;
         }
 
-        if (req?.body?.ownerEmail) {
-            const user = await userServices.getUserEmail(req.body.ownerEmail);
-            if (!user) {
-                throw { message: "user not found" };
-            }
-            objectResponse.owner = {
-                connect: {
-                    id: user.id
-                }
-            }
-        }
         const response = await wishlistServices.updateWishlist(req.params.id, objectResponse);
         res.json(response);
     } catch (err) {

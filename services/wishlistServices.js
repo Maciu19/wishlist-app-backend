@@ -5,7 +5,11 @@ const getAll = async () => {
     const whislists = await prisma.wishlist.findMany({
         include: {
             owner: true,
-            itemWishlist: true,
+            itemWishlist: {
+                include: {
+                    item: true
+                }
+            },
             groupWishlist: true
         }
     });
@@ -19,7 +23,11 @@ const getWishlistById = async (id) => {
         },
         include: {
             owner: true,
-            itemWishlist: true,
+            itemWishlist: {
+                include: {
+                    item: true
+                }
+            },
             groupWishlist: true
         }
     })
@@ -31,7 +39,11 @@ const addWishlist = async (wishlistInfo) => {
         data: { ...wishlistInfo },
         include: {
             owner: true,
-            itemWishlist: true,
+            itemWishlist: {
+                include: {
+                    item: true
+                }
+            },
             groupWishlist: true
         }
     })
@@ -46,7 +58,11 @@ const updateWishlist = async (id, wishlistInfo) => {
         data: { ...wishlistInfo },
         include: {
             owner: true,
-            itemWishlist: true,
+            itemWishlist: {
+                include: {
+                    item: true
+                }
+            },
             groupWishlist: true
         }
     })
@@ -61,7 +77,11 @@ const deleteWishlist = async (id) => {
         },
         include: {
             owner: true,
-            itemWishlist: true,
+            itemWishlist: {
+                include: {
+                    item: true
+                }
+            },
             groupWishlist: true
         }
     })

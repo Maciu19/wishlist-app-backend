@@ -28,6 +28,21 @@ const getWishlist = async (req, res, next) => {
     }
 }
 
+const getWishlistName = async (req, res, next) => {
+    try {
+        const response = await wishlistServices.getWishlistByName(req.body.name);
+
+        if (!response) {
+            throw { message: "No wishlist found" };
+        }
+
+        res.json(response);
+    } catch (err) {
+        console.error("Error while getting one wishlist");
+        next(err);
+    }
+}
+
 const addWishlsit = async (req, res, next) => {
     try {
         const user = await userServices.getUserEmail(req.user.user.email);
@@ -92,4 +107,4 @@ const deleteWishlist = async (req, res, next) => {
     }
 }
 
-export default { getWishlists, getWishlist, addWishlsit, updateWishlist, deleteWishlist };
+export default { getWishlists, getWishlist, getWishlistName, addWishlsit, updateWishlist, deleteWishlist };

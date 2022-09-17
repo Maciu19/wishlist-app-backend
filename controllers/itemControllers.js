@@ -16,7 +16,7 @@ const getItem = async (req, res, next) => {
         }
         const response = await itemServices.getItem(req.params.id);
         if (!response) {
-            throw { message: "No user found" };
+            throw { message: "No item found" };
         }
         res.json(response);
     } catch (err) {
@@ -31,6 +31,7 @@ const addItem = async (req, res, next) => {
             name: req.body.name,
             details: req.body.details,
             link: req.body.link,
+            quantity: req.body.quantity,
             size: req?.body?.size || "",
         });
 
@@ -58,6 +59,7 @@ const updateItem = async (req, res, next) => {
             name: req?.body?.name || item.name,
             details: req?.body?.details || item.details,
             link: req?.body?.link || item.link,
+            quantity: req.body.quantity || item.quantity,
             size: req?.body?.size || item.size,
         });
 

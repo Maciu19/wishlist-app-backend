@@ -17,7 +17,8 @@ import groupWishlistRouter from "./routes/groupWishlistRoutes.js"
 import purchasesRouter from "./routes/purchaseRoutes.js";
 import notificationsRouter from "./routes/notificationRoutes.js";
 import userLogoutRouter from "./routes/userLogoutRoutes.js";
-import userProfileChange from "./routes/userChangeProfileRoutes.js";
+import userProfileChangeRouter from "./routes/userChangeProfileRoutes.js";
+import userDeleteRouter from "./routes/deleteUserRoutes.js";
 import birdayChecker from "./utils/birthdayChecker.js";
 
 dotenv.config();
@@ -38,7 +39,8 @@ app.use("/register", userRegisterRouter);
 app.use("/login", userLoginRouter);
 app.use("/logout", userLogoutRouter);
 app.use("/users", userRouter);
-app.use("/updateProfile", userProfileChange)
+app.use("/deleteUser", userDeleteRouter);
+app.use("/updateProfile", userProfileChangeRouter);
 
 app.use("/addresses", addressRouter);
 app.use("/usersDetails", userDetailsRouter);

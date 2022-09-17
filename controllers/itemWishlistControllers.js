@@ -34,30 +34,60 @@ const getItemsInWishlist = async (req, res, next) => {
 
 const addItemsInWishlist = async (req, res, next) => {
     try {
-        const wishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
-        if (!wishlist) {
-            throw { message: "No wishlist found" };
-        }
-
         const item = await itemServices.getItem(req.body.itemId);
         if (!item) {
             throw { message: "No item found" };
         }
 
-        const response = await itemWishlistServices.addItemsInWishlist({
-            wishlist: {
-                connect: {
-                    id: wishlist.id
-                }
-            },
-            item: {
-                connect: {
-                    id: item.id
-                }
+        if (!Array.isArray(req.body.wishlistId)) {
+            const wishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
+            if (!wishlist) {
+                throw { message: "No wishlist found" };
             }
-        });
 
-        res.json(response);
+            const response = await itemWishlistServices.addItemsInWishlist({
+                wishlist: {
+                    connect: {
+                        id: wishlist.id
+                    }
+                },
+                item: {
+                    connect: {
+                        id: item.id
+                    }
+                }
+            });
+
+            res.json(response);
+        } else {
+
+            const wishlistIds = req.body.wishlistId;
+            const response = [];
+
+            for (let wishlistId of wishlistIds) {
+
+                let wishlist = await wishlistServices.getWishlistById(wishlistId);
+                if (!wishlist) {
+                    throw { message: "No wishlist found" };
+                }
+
+                let resp = await itemWishlistServices.addItemsInWishlist({
+                    wishlist: {
+                        connect: {
+                            id: wishlist.id
+                        }
+                    },
+                    item: {
+                        connect: {
+                            id: item.id
+                        }
+                    }
+                });
+                response.push(resp);
+            }
+            res.json(response);
+        }
+
     } catch (err) {
         console.error("Error while adding one wishlist");
         next(err);

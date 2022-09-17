@@ -11,7 +11,8 @@ router.route("/")
     .post([
         check("name", "Invalid name").exists(),
         check("details", "Invalid details").exists(),
-        check("link", "link details").exists()
+        check("quantity", "Invalid quantity").isInt(),
+        check("link", "Invalid link").exists()
     ], validationMiddleware, requestMiddleware, itemController.addItem)
 
 router.route("/:id")

@@ -15,7 +15,7 @@ model user {
   username     String         @unique
   password     String
   email        String         @unique
-  token        String?        @unique @db.VarChar(400)
+  token        String?        @unique @db.VarChar(500)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   userDetails  userDetails?
@@ -31,7 +31,7 @@ model userDetails {
   lastName      String
   phone         String
   dob           DateTime
-  avatar        String?     @unique @db.VarChar(400)
+  avatar        String?     @db.VarChar(500)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   user          user        @relation(fields: [userId], references: [id])
@@ -80,6 +80,7 @@ model item {
   details      String
   link         String         @db.VarChar(350)
   size         String?
+  quantity     Int            @default(1)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   itemWishlist itemWishlist[]

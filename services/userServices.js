@@ -9,7 +9,16 @@ const getAll = async () => {
                     userAddress: true
                 }
             },
-            wishlist: true,
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
             userInGroup: true,
             purchase: true,
             notification: true
@@ -29,7 +38,16 @@ const getUserId = async (id) => {
                     userAddress: true
                 }
             },
-            wishlist: true,
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
             userInGroup: true,
             purchase: true,
             notification: true
@@ -49,7 +67,16 @@ const getUserEmail = async (email) => {
                     userAddress: true
                 }
             },
-            wishlist: true,
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
             userInGroup: true,
             purchase: true,
             notification: true
@@ -67,7 +94,16 @@ const addUser = async (userInfo) => {
                     userAddress: true
                 }
             },
-            wishlist: true,
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
             userInGroup: true,
             purchase: true,
             notification: true
@@ -88,7 +124,16 @@ const updateUser = async (email, userInfo) => {
                     userAddress: true
                 }
             },
-            wishlist: true,
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
             userInGroup: true,
             purchase: true,
             notification: true
@@ -108,7 +153,16 @@ const deleteUser = async (email) => {
                     userAddress: true
                 }
             },
-            wishlist: true,
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
             userInGroup: true,
             purchase: true,
             notification: true

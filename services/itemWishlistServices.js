@@ -24,6 +24,23 @@ const getItemsInWishlist = async (id) => {
     return itemsInWishlist;
 }
 
+const getItemsInWishlist_WishlistAndItemId = async (itemId, wishlistId) => {
+    const itemsInWishlist = await prisma.itemWishlist.findUnique({
+        where: {
+            wishlistId_itemId: {
+                itemId: itemId,
+                wishlistId: wishlistId
+            },
+
+        },
+        include: {
+            item: true,
+            wishlist: true
+        }
+    })
+    return itemsInWishlist;
+}
+
 const addItemsInWishlist = async (info) => {
     const itemsInWishlist = await prisma.itemWishlist.create({
         data: { ...info },
@@ -63,4 +80,4 @@ const deleteItemsInWishlist = async (id) => {
     return itemsInWishlist;
 }
 
-export default { getAll, getItemsInWishlist, addItemsInWishlist, updateItemsInWishlist, deleteItemsInWishlist };
+export default { getAll, getItemsInWishlist, getItemsInWishlist_WishlistAndItemId, addItemsInWishlist, updateItemsInWishlist, deleteItemsInWishlist };

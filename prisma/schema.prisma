@@ -72,6 +72,8 @@ model itemWishlist {
   item       item       @relation(fields: [itemId], references: [id])
   itemId     String
   purchase   purchase[]
+
+  @@unique([wishlistId, itemId])
 }
 
 model item {

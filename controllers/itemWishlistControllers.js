@@ -32,6 +32,21 @@ const getItemsInWishlist = async (req, res, next) => {
     }
 }
 
+const getItemsInWishlist_WishlistAndItemId = async (req, res, next) => {
+    try {
+        const response = await itemWishlistServices.getItemsInWishlist_WishlistAndItemId(req.params.itemId, req.params.wishlistId);
+
+        if (!response) {
+            throw { message: "No wishlist found" };
+        }
+
+        res.json(response);
+    } catch (err) {
+        console.error("Error while getting one wishlist");
+        next(err);
+    }
+}
+
 const addItemsInWishlist = async (req, res, next) => {
     try {
         const item = await itemServices.getItem(req.body.itemId);
@@ -208,4 +223,4 @@ const deleteItemsInWishlist = async (req, res, next) => {
     }
 }
 
-export default { getItemsInWishlists, getItemsInWishlist, addItemsInWishlist, updateItemsInWishlist, deleteItemsInWishlist };
+export default { getItemsInWishlists, getItemsInWishlist, getItemsInWishlist_WishlistAndItemId, addItemsInWishlist, updateItemsInWishlist, deleteItemsInWishlist };

@@ -13,7 +13,8 @@ router.route("/")
         check("itemId", "item invalid").exists()
     ], validationMiddleware, requestMiddleware, itemWishlistController.addItemsInWishlist)
 
-router.route("/")
+router.route("/:wishlistId/:itemId")
+    .get(requestMiddleware, itemWishlistController.getItemsInWishlist_WishlistAndItemId)
 
 router.route("/:id")
     .get(requestMiddleware, itemWishlistController.getItemsInWishlist)

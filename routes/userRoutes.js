@@ -8,6 +8,9 @@ const router = express.Router();
 router.route("/all")
     .get(requestMiddleware, authMiddleware, userController.getUsers)
 
+router.route("/items/wishlists")
+    .get(requestMiddleware, authMiddleware, userController.getAllItems)
+
 router.route("/")
     .get(requestMiddleware, authMiddleware, userController.getUser)
     .patch(requestMiddleware, authMiddleware, userController.updateUser)

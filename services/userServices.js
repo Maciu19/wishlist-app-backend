@@ -13,7 +13,8 @@ const getAll = async () => {
                 include: {
                     itemWishlist: {
                         include: {
-                            purchase: true
+                            purchase: true,
+                            item: true
                         }
                     },
                     groupWishlist: true
@@ -42,7 +43,8 @@ const getUserId = async (id) => {
                 include: {
                     itemWishlist: {
                         include: {
-                            purchase: true
+                            purchase: true,
+                            item: true
                         }
                     },
                     groupWishlist: true
@@ -71,7 +73,8 @@ const getUserEmail = async (email) => {
                 include: {
                     itemWishlist: {
                         include: {
-                            purchase: true
+                            purchase: true,
+                            item: true
                         }
                     },
                     groupWishlist: true
@@ -98,7 +101,8 @@ const addUser = async (userInfo) => {
                 include: {
                     itemWishlist: {
                         include: {
-                            purchase: true
+                            purchase: true,
+                            item: true
                         }
                     },
                     groupWishlist: true
@@ -128,7 +132,8 @@ const updateUser = async (email, userInfo) => {
                 include: {
                     itemWishlist: {
                         include: {
-                            purchase: true
+                            purchase: true,
+                            item: true
                         }
                     },
                     groupWishlist: true
@@ -157,7 +162,8 @@ const deleteUser = async (email) => {
                 include: {
                     itemWishlist: {
                         include: {
-                            purchase: true
+                            purchase: true,
+                            item: true
                         }
                     },
                     groupWishlist: true

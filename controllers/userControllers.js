@@ -76,6 +76,29 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const getAllItems = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+
+        const response = [];
+        const wishlists = user.wishlist;
+
+        for (let wishlist of wishlists) {
+            let itemWishlists = wishlist.itemWishlist;
+            for (let itemWishlist of itemWishlists) {
+                response.push(itemWishlist.item);
+            }
+        }
+        res.json(response);
+    } catch (err) {
+        console.error("Error with login");
+        next(err);
+    }
+}
+
 const loginUser = async (req, res, next) => {
     try {
         const user = await userServices.getUserEmail(req.body.email);
@@ -115,4 +138,4 @@ const logoutUser = async (req, res, next) => {
     }
 }
 
-export default { getUsers, getUser, addUser, updateUser, deleteUser, loginUser, logoutUser };
+export default { getUsers, getUser, addUser, getAllItems, updateUser, deleteUser, loginUser, logoutUser };

@@ -175,37 +175,38 @@ const updateItemsInWishlist = async (req, res, next) => {
                 }
             }
         }
+    }
 
         if (req?.body?.wishlistId) {
-            const newWishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
-            if (!newWishlist) {
-                throw { message: "No wishlist found" };
-            }
-
-            objectResponse.wishlist = {
-                connect: {
-                    id: newWishlist.id
-                }
-            }
+        const newWishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
+        if (!newWishlist) {
+            throw { message: "No wishlist found" };
         }
 
-        if (req?.body?.itemId) {
-            const newItem = await itemServices.getItem(req.body.itemId);
-            if (!newItem) {
-                throw { message: "No item found" };
-            }
-            objectResponse.item = {
-                connect: {
-                    id: newItem.id
-                }
+        objectResponse.wishlist = {
+            connect: {
+                id: newWishlist.id
             }
         }
-        const response = await itemWishlistServices.updateItemsInWishlist(req.params.id, objectResponse);
-        res.json(response);
-    } catch (err) {
-        console.error("Error while updating one wishlist");
-        next(err);
     }
+
+    if (req?.body?.itemId) {
+        const newItem = await itemServices.getItem(req.body.itemId);
+        if (!newItem) {
+            throw { message: "No item found" };
+        }
+        objectResponse.item = {
+            connect: {
+                id: newItem.id
+            }
+        }
+    }
+    const response = await itemWishlistServices.updateItemsInWishlist(req.params.id, objectResponse);
+    res.json(response);
+} catch (err) {
+    console.error("Error while updating one wishlist");
+    next(err);
+}
 }
 
 const deleteItemsInWishlist = async (req, res, next) => {

@@ -125,56 +125,54 @@ const updateItemsInWishlist = async (req, res, next) => {
         if (req?.body?.isBought === true || req?.body?.isBought === false) {
             objectResponse.isBought = req.body.isBought;
             if (req?.body?.isBought === true) {
-                if (!req?.body?.buyers) {
-                    throw { message: "Buyers invalid" };
-                }
-
-                if (!Array.isArray(req.body.buyers)) {
-                    throw { message: "Buyers should be an array" }
-                }
-
-                const buyers = req.body.buyers;
-                let usernamesOfBuyers = [];
-                if (buyers.length === 0) {
-                    throw { message: "Buyers invalid" };
-                }
-
-                for (let buyer of buyers) {
-                    if (!typeof buyer === "string") {
-                        throw { message: "Buyers should be strings" }
+                if (req?.body?.buyers) {
+                    if (!Array.isArray(req.body.buyers)) {
+                        throw { message: "Buyers should be an array" }
                     }
 
-                    let user = await userServices.getUserEmail(buyer);
-                    if (!user) {
-                        throw { message: "Invalid Buyer" };
+                    const buyers = req.body.buyers;
+                    let usernamesOfBuyers = [];
+                    if (buyers.length === 0) {
+                        throw { message: "Buyers invalid" };
                     }
 
-                    usernamesOfBuyers.push(user.username);
+                    for (let buyer of buyers) {
+                        if (!typeof buyer === "string") {
+                            throw { message: "Buyers should be strings" }
+                        }
 
-                    await purchaseServices.addPurchase({
-                        itemWishlist: {
-                            connect: {
-                                id: itemsInWishlist.id
+                        let user = await userServices.getUserEmail(buyer);
+                        if (!user) {
+                            throw { message: "Invalid Buyer" };
+                        }
+
+                        usernamesOfBuyers.push(user.username);
+
+                        await purchaseServices.addPurchase({
+                            itemWishlist: {
+                                connect: {
+                                    id: itemsInWishlist.id
+                                }
+                            },
+                            user: {
+                                connect: {
+                                    id: user.id
+                                }
                             }
-                        },
+                        })
+                    }
+
+                    notificationServices.addNotification({
+                        category: "GIFT",
+                        details: `${usernamesOfBuyers} bought you from the wishlist "${itemsInWishlist.wishlist.name}", the item: "${itemsInWishlist.item.name} ${itemsInWishlist.item.details}"`,
                         user: {
                             connect: {
-                                id: user.id
+                                id: itemsInWishlist.wishlist.ownerId
                             }
                         }
                     })
+
                 }
-
-                notificationServices.addNotification({
-                    category: "GIFT",
-                    details: `${usernamesOfBuyers} bought you from the wishlist "${itemsInWishlist.wishlist.name}", the item: "${itemsInWishlist.item.name} ${itemsInWishlist.item.details}"`,
-                    user: {
-                        connect: {
-                            id: itemsInWishlist.wishlist.ownerId
-                        }
-                    }
-                })
-
             }
         }
 

@@ -28,7 +28,15 @@ const getWishlistById = async (id) => {
                     item: true
                 }
             },
-            groupWishlist: true
+            groupWishlist: {
+                include: {
+                    group: {
+                        include: {
+                            userInGroup: true
+                        }
+                    }
+                }
+            }
         }
     })
     return wishlist;
@@ -46,7 +54,11 @@ const getWishlistByName = async (name) => {
                     item: true
                 }
             },
-            groupWishlist: true
+            groupWishlist: {
+                include: {
+                    group: true
+                }
+            }
         }
     })
     return wishlist;

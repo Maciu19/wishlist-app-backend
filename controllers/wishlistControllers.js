@@ -28,6 +28,45 @@ const getWishlist = async (req, res, next) => {
     }
 }
 
+const getWishlistAllUsers = async (req, res, next) => {
+    try {
+        if (!req?.params?.id) {
+            throw { message: "No paramter provided" };
+        }
+        const wishlist = await wishlistServices.getWishlistById(req.params.id);
+
+        if (!wishlist) {
+            throw { message: "No wishlist found" };
+        }
+
+        const userIds = [];
+        const groupsWishlist = wishlist.groupWishlist;
+        for (let groupWishlist of groupsWishlist) {
+            let usersInGroup = groupWishlist.group.userInGroup;
+            for (let userInGroup of usersInGroup) {
+                if (userInGroup.isOwner === false) {
+                    userIds.push(userInGroup.userId);
+                }
+            }
+        }
+
+        if (userIds.length === 0) {
+            throw { message: "Not user found" };
+        }
+
+        const users = [];
+        for (let userId of userIds) {
+            let user = await userServices.getUserId(userId);
+            users.push(user);
+        }
+
+        res.json(users);
+    } catch (err) {
+        console.error("Error while getting all wishlist users");
+        next(err);
+    }
+}
+
 const getWishlistName = async (req, res, next) => {
     try {
         const response = await wishlistServices.getWishlistByName(req.params.name);
@@ -107,4 +146,4 @@ const deleteWishlist = async (req, res, next) => {
     }
 }
 
-export default { getWishlists, getWishlist, getWishlistName, addWishlsit, updateWishlist, deleteWishlist };
+export default { getWishlists, getWishlist, getWishlistName, getWishlistAllUsers, addWishlsit, updateWishlist, deleteWishlist };

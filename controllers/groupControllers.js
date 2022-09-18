@@ -37,6 +37,8 @@ const getGroupUsersWishlists = async (req, res, next) => {
         if (!group) {
             throw { message: "No group found" };
         }
+        const name = group.name;
+        const id = group.id;
 
         const users = [];
         const usersInGroup = group.userInGroup;
@@ -53,7 +55,7 @@ const getGroupUsersWishlists = async (req, res, next) => {
         }
 
         const response = {
-            users, wishlists
+            users, wishlists, name, id
         }
 
         res.json(response);

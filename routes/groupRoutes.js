@@ -12,6 +12,9 @@ router.route("/")
         check("name", "Invalid name").exists()
     ], validationMiddleware, requestMiddleware, groupControllers.addGroup)
 
+router.route("/:id/users/wishlists")
+    .get(requestMiddleware, groupControllers.getGroupUsersWishlists)
+
 router.route("/:id")
     .get(requestMiddleware, groupControllers.getGroup)
     .patch(requestMiddleware, groupControllers.updateGroup)

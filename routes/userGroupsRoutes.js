@@ -9,7 +9,7 @@ const router = express.Router();
 router.route("/")
     .get(requestMiddleware, userGroupsControllers.getUsersInGroups)
     .post([
-        check("userEmail", "Invalid user email").isEmail(),
+        check("username", "Invalid user").exists(),
         check("groupId", "Invalid group").exists()
     ], validationMiddleware, requestMiddleware, userGroupsControllers.addUserInGroup)
 

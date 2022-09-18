@@ -16,8 +16,7 @@ router.route("/")
 router.route("/name/:name")
     .get(requestMiddleware, wishlistControllers.getWishlistName)
 
-// all users that can view a shared wishlist, that are not owner
-router.route("/all/users/:id")
+router.route("/:id/all/users")
     .get(requestMiddleware, wishlistControllers.getWishlistAllUsers)
 
 router.route("/:id")

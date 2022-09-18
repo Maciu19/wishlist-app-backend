@@ -31,30 +31,57 @@ const getGroupWishlist = async (req, res, next) => {
 
 const addGroupWishlist = async (req, res, next) => {
     try {
-        const wishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
-        if (!wishlist) {
-            throw { message: "No wishlist found" };
-        }
-
         const group = await groupServices.getGroup(req.body.groupId);
         if (!group) {
             throw { message: "No group found" };
         }
 
-        const response = await groupWishlistServices.addGroupWishlist({
-            wishlist: {
-                connect: {
-                    id: wishlist.id
-                }
-            },
-            group: {
-                connect: {
-                    id: group.id
-                }
+        if (!Array.isArray(req.body.wishlistId)) {
+            const wishlist = await wishlistServices.getWishlistById(req.body.wishlistId);
+            if (!wishlist) {
+                throw { message: "No wishlist found" };
             }
-        });
 
-        res.json(response);
+            const response = await groupWishlistServices.addGroupWishlist({
+                wishlist: {
+                    connect: {
+                        id: wishlist.id
+                    }
+                },
+                group: {
+                    connect: {
+                        id: group.id
+                    }
+                }
+            });
+            res.json(response);
+        } else {
+            const wishlistIds = req.body.wishlistId;
+            const response = [];
+
+            for (let wishlistId of wishlistIds) {
+
+                let wishlist = await wishlistServices.getWishlistById(wishlistId);
+                if (!wishlist) {
+                    throw { message: "No wishlist found" };
+                }
+
+                let resp = await groupWishlistServices.addGroupWishlist({
+                    wishlist: {
+                        connect: {
+                            id: wishlist.id
+                        }
+                    },
+                    group: {
+                        connect: {
+                            id: group.id
+                        }
+                    }
+                });
+                response.push(resp);
+            }
+            res.json(response);
+        }
     } catch (err) {
         console.error("Error while adding one groupWishlist");
         next(err);

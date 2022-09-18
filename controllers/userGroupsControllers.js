@@ -40,7 +40,7 @@ const getOwnerInGroup = async (req, res, next) => {
 
 const addUserInGroup = async (req, res, next) => {
     try {
-        const user = await userServices.getUserEmail(req.body.userEmail);
+        const user = await userServices.getUserUsername(req.body.username);
         if (!user) {
             throw { message: "No user found" };
         }
@@ -101,8 +101,8 @@ const updateUserInGroup = async (req, res, next) => {
             objectResponse.isOwner = req.body.isOwner;
         }
 
-        if (req?.body?.userEmail) {
-            const newUser = await userServices.getUserEmail(req.body.userEmail);
+        if (req?.body?.username) {
+            const newUser = await userServices.getUserUsername(req.body.username);
             if (!newUser) {
                 throw { message: "No user found" };
             }

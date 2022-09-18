@@ -80,7 +80,45 @@ const getUserEmail = async (email) => {
                     groupWishlist: true
                 }
             },
-            userInGroup: true,
+            userInGroup: {
+                include: {
+                    group: true
+                }
+            },
+            purchase: true,
+            notification: true
+        }
+    })
+    return user;
+}
+
+const getUserUsername = async (username) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            username
+        },
+        include: {
+            userDetails: {
+                include: {
+                    userAddress: true
+                }
+            },
+            wishlist: {
+                include: {
+                    itemWishlist: {
+                        include: {
+                            purchase: true,
+                            item: true
+                        }
+                    },
+                    groupWishlist: true
+                }
+            },
+            userInGroup: {
+                include: {
+                    group: true
+                }
+            },
             purchase: true,
             notification: true
         }
@@ -177,4 +215,4 @@ const deleteUser = async (email) => {
     return user;
 }
 
-export default { getAll, getUserId, getUserEmail, addUser, updateUser, deleteUser };
+export default { getAll, getUserId, getUserEmail, getUserUsername, addUser, updateUser, deleteUser };

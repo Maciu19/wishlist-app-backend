@@ -1,4 +1,6 @@
 import groupServices from "../services/groupServices.js";
+import userServices from "../services/userServices.js";
+import wishlistServices from "../services/wishlistServices.js";
 
 const getGroups = async (req, res, next) => {
     try {
@@ -18,6 +20,42 @@ const getGroup = async (req, res, next) => {
         if (!response) {
             throw { message: "No group found" };
         }
+        res.json(response);
+    } catch (err) {
+        console.error("Error while getting one group");
+        next(err);
+    }
+}
+
+const getGroupUsersWishlists = async (req, res, next) => {
+    try {
+        // De facut si verificare cu token
+        if (!req?.params?.id) {
+            throw { message: "No paramter provided" };
+        }
+        const group = await groupServices.getGroup(req.params.id);
+        if (!group) {
+            throw { message: "No group found" };
+        }
+
+        const users = [];
+        const usersInGroup = group.userInGroup;
+        for (let userInGroup of usersInGroup) {
+            let user = await userServices.getUserId(userInGroup.userId);
+            users.push(user);
+        }
+
+        const wishlists = [];
+        const groupWishlists = group.groupWishlist;
+        for (let groupWishlist of groupWishlists) {
+            let wishlist = await wishlistServices.getWishlistById(groupWishlist.wishlistId);
+            wishlists.push(wishlist);
+        }
+
+        const response = {
+            users, wishlists
+        }
+
         res.json(response);
     } catch (err) {
         console.error("Error while getting one group");
@@ -73,5 +111,5 @@ const deleteGroup = async (req, res, next) => {
     }
 }
 
-export default { getGroups, getGroup, addGroup, updateGroup, deleteGroup };
+export default { getGroups, getGroup, getGroupUsersWishlists, addGroup, updateGroup, deleteGroup };
 

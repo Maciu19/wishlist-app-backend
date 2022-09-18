@@ -26,6 +26,76 @@ const getUser = async (req, res, next) => {
     }
 }
 
+const getUserWishlists = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+        res.json(user.wishlist);
+    } catch (err) {
+        console.error("Error while getting one user");
+        next(err);
+    }
+}
+
+const getUserNotifications = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+        res.json(user.notification);
+    } catch (err) {
+        console.error("Error while getting one user");
+        next(err);
+    }
+}
+
+const getUserGroupsOwner = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+
+        const userInGroups = user.userInGroup;
+        const groups = [];
+        for (let userInGroup of userInGroups) {
+            if (userInGroup.isOwner === true) {
+                groups.push(userInGroup.group);
+            }
+        }
+
+        res.json(groups);
+    } catch (err) {
+        console.error("Error while getting groups");
+        next(err);
+    }
+}
+
+const getUserGroupsMember = async (req, res, next) => {
+    try {
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+
+        const userInGroups = user.userInGroup;
+        const groups = [];
+        for (let userInGroup of userInGroups) {
+            if (userInGroup.isOwner === false) {
+                groups.push(userInGroup.group);
+            }
+        }
+
+        res.json(groups);
+    } catch (err) {
+        console.error("Error while getting groups");
+        next(err);
+    }
+}
+
 const addUser = async (req, res, next) => {
     try {
         const hashPassword = await bcrypt.hash(req.body.password, 10);
@@ -138,4 +208,4 @@ const logoutUser = async (req, res, next) => {
     }
 }
 
-export default { getUsers, getUser, addUser, getAllItems, updateUser, deleteUser, loginUser, logoutUser };
+export default { getUsers, getUser, addUser, getAllItems, getUserWishlists, getUserNotifications, getUserGroupsOwner, getUserGroupsMember, updateUser, deleteUser, loginUser, logoutUser };

@@ -38,6 +38,39 @@ const getOwnerInGroup = async (req, res, next) => {
     }
 }
 
+const addUserInGroupOwner = async (req, res, next) => {
+    try {
+        // from token
+        const user = await userServices.getUserEmail(req.user.user.email);
+        if (!user) {
+            throw { message: "No user found" };
+        }
+
+        const group = await groupServices.addGroup({
+            name: req.body.name
+        });
+
+        const response = await userGroupsServices.addUserInGroup({
+            isOwner: true,
+            user: {
+                connect: {
+                    id: user.id
+                }
+            },
+            group: {
+                connect: {
+                    id: group.id
+                }
+
+            }
+        });
+        res.json(response);
+    } catch (err) {
+        console.error("Error while adding one user in one group");
+        next(err);
+    }
+}
+
 const addUserInGroup = async (req, res, next) => {
     try {
         const user = await userServices.getUserUsername(req.body.username);
@@ -146,4 +179,4 @@ const deleteUserInGroup = async (req, res, next) => {
     }
 }
 
-export default { getUsersInGroups, getUserInGroup, getOwnerInGroup, addUserInGroup, updateUserInGroup, deleteUserInGroup };
+export default { getUsersInGroups, getUserInGroup, getOwnerInGroup, addUserInGroup, addUserInGroupOwner, updateUserInGroup, deleteUserInGroup };

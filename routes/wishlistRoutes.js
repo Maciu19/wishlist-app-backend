@@ -13,10 +13,8 @@ router.route("/")
         check("name", "invalid name").exists()
     ], validationMiddleware, requestMiddleware, authMiddleware, wishlistControllers.addWishlsit)
 
-router.route("/name")
-    .get([
-        check("name", "invalid name").exists()
-    ], validationMiddleware, requestMiddleware, wishlistControllers.getWishlistName)
+router.route("/name/:name")
+    .get(requestMiddleware, wishlistControllers.getWishlistName)
 
 router.route("/:id")
     .get(requestMiddleware, wishlistControllers.getWishlist)

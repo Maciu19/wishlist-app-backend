@@ -30,7 +30,7 @@ const getWishlist = async (req, res, next) => {
 
 const getWishlistName = async (req, res, next) => {
     try {
-        const response = await wishlistServices.getWishlistByName(req.body.name);
+        const response = await wishlistServices.getWishlistByName(req.params.name);
 
         if (!response) {
             throw { message: "No wishlist found" };

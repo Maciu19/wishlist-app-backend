@@ -29,7 +29,6 @@ const getGroup = async (req, res, next) => {
 
 const getGroupUsersWishlists = async (req, res, next) => {
     try {
-        // De facut si verificare cu token
         if (!req?.params?.id) {
             throw { message: "No paramter provided" };
         }

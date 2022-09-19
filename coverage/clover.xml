@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1663625621686" clover="3.2.0">
-  <project timestamp="1663625621686" name="All files">
-    <metrics statements="932" coveredstatements="408" conditionals="261" coveredconditionals="56" methods="130" coveredmethods="65" elements="1323" coveredelements="529" complexity="0" loc="932" ncloc="932" packages="3" files="24" classes="24"/>
+<coverage generated="1663627485296" clover="3.2.0">
+  <project timestamp="1663627485297" name="All files">
+    <metrics statements="938" coveredstatements="414" conditionals="261" coveredconditionals="56" methods="132" coveredmethods="67" elements="1331" coveredelements="537" complexity="0" loc="938" ncloc="938" packages="4" files="26" classes="26"/>
     <package name="controllers">
       <metrics statements="730" coveredstatements="261" conditionals="261" coveredconditionals="56" methods="66" coveredmethods="29"/>
       <file name="deleteUserController.js" path="C:\Users\Maciu\Desktop\Proiect WishlistApp\Proiect\controllers\deleteUserController.js">
@@ -771,6 +771,15 @@
         <line num="145" count="2" type="stmt"/>
       </file>
     </package>
+    <package name="middleware">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="requestMiddleware.js" path="C:\Users\Maciu\Desktop\Proiect WishlistApp\Proiect\middleware\requestMiddleware.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+      </file>
+    </package>
     <package name="services">
       <metrics statements="200" coveredstatements="146" conditionals="0" coveredconditionals="0" methods="63" coveredmethods="36"/>
       <file name="groupServices.js" path="C:\Users\Maciu\Desktop\Proiect WishlistApp\Proiect\services\groupServices.js">
@@ -1008,11 +1017,17 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
       <file name="authUtils.js" path="C:\Users\Maciu\Desktop\Proiect WishlistApp\Proiect\utils\authUtils.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
+      </file>
+      <file name="dateUTC.js" path="C:\Users\Maciu\Desktop\Proiect WishlistApp\Proiect\utils\dateUTC.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
       </file>
     </package>
   </project>

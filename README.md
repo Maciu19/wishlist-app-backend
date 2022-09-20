@@ -1,4 +1,4 @@
-# wishlist-app-backend
+# Wishlist API
 
 # Documentation: https://documenter.getpostman.com/view/22234395/2s7YzyJR2N
 

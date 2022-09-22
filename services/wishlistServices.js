@@ -43,7 +43,7 @@ const getWishlistById = async (id) => {
 }
 
 const getWishlistByName = async (name) => {
-    const wishlist = await prisma.wishlist.findUnique({
+    const wishlist = await prisma.wishlist.findFirst({
         where: {
             name
         },

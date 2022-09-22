@@ -52,7 +52,7 @@ model userAddress {
 
 model wishlist {
   id            String          @id @default(uuid())
-  name          String          @unique
+  name          String          
   isBought      Boolean         @default(false)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
